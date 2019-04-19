@@ -36,4 +36,13 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function getFullNameAttribute()
+    {
+        if (is_null($this->last_name)) {
+            return "{$this->name}";
+        }
+
+        return "{$this->name} {$this->last_name}";
+    }
 }
