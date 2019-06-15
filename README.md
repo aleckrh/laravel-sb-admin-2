@@ -2,6 +2,20 @@
 
 SB Admin 2 for Laravel.
 
+## Requirements
+
+- PHP >= 7.1.3
+- Mbstring PHP Extension
+- PDO PHP Extension
+
+## Installation
+
+- Clone the repo and `cd` into it
+- Run `composer install`
+- Rename or copy `.env.example` file to `.env`
+- Run `php artisan key:generate`
+- Set your database credentials in your `.env` file
+
 ## Note
 
 Recommend to install this preset on a project that you are starting from scratch, otherwise your project's design might break.
