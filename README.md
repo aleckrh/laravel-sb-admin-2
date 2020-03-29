@@ -2,6 +2,12 @@
 
 SB Admin 2 for Laravel.
 
+| Laravel Version | Branch |
+|-----------------|--------|
+| 7.0             | master |
+| 6.0             | v6.0   |
+| 5.8             | v5.8   |
+
 ## Requirements
 
 - PHP >= 7.1.3
