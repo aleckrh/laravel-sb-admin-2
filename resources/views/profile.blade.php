@@ -20,7 +20,7 @@
 
             <div class="card shadow mb-4">
                 <div class="card-profile-image mt-4">
-                    <img src="https://source.unsplash.com/QAB-WJcbgJk/180x180" class="rounded-circle" alt="user-image">
+                    <figure class="rounded-circle avatar avatar font-weight-bold" style="font-size: 60px; height: 180px; width: 180px;" data-initial="{{ Auth::user()->name[0] }}"></figure>
                 </div>
                 <div class="card-body">
 
