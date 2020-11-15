@@ -38,7 +38,7 @@ class ProfileController extends Controller
 
         if (!is_null($request->input('current_password'))) {
             if (Hash::check($request->input('current_password'), $user->password)) {
-                $user->password = $request->input('new_password');
+                $user->password = Hash::make($request->input('new_password'));
             } else {
                 return redirect()->back()->withInput();
             }
