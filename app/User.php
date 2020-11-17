@@ -37,6 +37,11 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    /**
+     * Get the user's full name.
+     *
+     * @return string
+     */
     public function getFullNameAttribute()
     {
         if (is_null($this->last_name)) {
@@ -44,5 +49,16 @@ class User extends Authenticatable
         }
 
         return "{$this->name} {$this->last_name}";
+    }
+
+    /**
+     * Set the user's password.
+     *
+     * @param string $value
+     * @return void
+     */
+    public function setPasswordAttribute($value)
+    {
+        $this->attributes['password'] = bcrypt($value);
     }
 }
