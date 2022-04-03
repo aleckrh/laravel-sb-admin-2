@@ -33,6 +33,8 @@ SB Admin 2 for Laravel.
 
 Recommend to install this preset on a project that you are starting from scratch, otherwise your project's design might break.
 
+If you found this project useful, then please consider giving it a :star:
+
 ## Credits
 
 Laravel SB Admin 2 uses some open-source third-party libraries/packages, many thanks to the web community.
@@ -40,6 +42,17 @@ Laravel SB Admin 2 uses some open-source third-party libraries/packages, many th
 - Laravel - Open source framework.
 - LaravelEasyNav - Making managing navigation in Laravel easy.
 - SB Admin 2 - Thanks to Start Bootstrap.
+
+
+## 💰 Donation
+
+If you found this project helpful or you learned something from the source code and want to thank me, consider buying me a cup of :coffee:
+
+* **[Donate $5](https://www.paypal.me/aleckrh/USD5)**: Thank's for creating this project, here's a coffee or juice or beer for you!
+* **[Donate $10](https://www.paypal.me/aleckrh/USD10)**: Wow, I am stunned. Let me take you to the movies.
+* **[Donate $15](https://www.paypal.me/aleckrh/USD15)**: I really appreciate your work, let's grab some lunch!
+* **[Donate $20](https://www.paypal.me/aleckrh/USD20)**: That's some awesome stuff you did right there, Pizza/Burger is on me!
+
 
 ## Preview
 
