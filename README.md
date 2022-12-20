@@ -44,17 +44,6 @@ Laravel SB Admin 2 uses some open-source third-party libraries/packages, many th
 - LaravelEasyNav - Making managing navigation in Laravel easy.
 - SB Admin 2 - Thanks to Start Bootstrap.
 
-
-## 💰 Donation
-
-If you found this project helpful or you learned something from the source code and want to thank me, consider buying me a cup of :coffee:
-
-* **[Donate $5](https://www.paypal.me/aleckrh/USD5)**: Thank's for creating this project, here's a coffee or juice or beer for you!
-* **[Donate $10](https://www.paypal.me/aleckrh/USD10)**: Wow, I am stunned. Let me take you to the movies.
-* **[Donate $15](https://www.paypal.me/aleckrh/USD15)**: I really appreciate your work, let's grab some lunch!
-* **[Donate $20](https://www.paypal.me/aleckrh/USD20)**: That's some awesome stuff you did right there, Pizza/Burger is on me!
-
-
 ## Preview
 
 `login`
@@ -87,4 +76,4 @@ If you found this project helpful or you learned something from the source code 
 
 ## License
 
-Licensed under the MIT license.
+Licensed under the [MIT](LICENSE) license.
