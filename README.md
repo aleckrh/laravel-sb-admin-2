@@ -13,13 +13,18 @@ SB Admin 2 for Laravel.
 
 ## Requirements
 
-- PHP >= 8.0
-- BCMath PHP Extension
+- PHP >= 8.1
 - Ctype PHP Extension
-- JSON PHP Extension
+- cURL PHP Extension
+- DOM PHP Extension
+- Fileinfo PHP Extension
+- Filter PHP Extension
+- Hash PHP Extension
 - Mbstring PHP Extension
 - OpenSSL PHP Extension
+- PCRE PHP Extension
 - PDO PHP Extension
+- Session PHP Extension
 - Tokenizer PHP Extension
 - XML PHP Extension
 
