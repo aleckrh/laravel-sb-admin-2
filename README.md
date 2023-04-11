@@ -6,7 +6,7 @@ SB Admin 2 for Laravel.
 |-----------------|--------|-------------|
 | 10.0            | main   |             |
 | 9.0             | v9.0   |             |
-| 8.0             | v8.0   |             |
+| 8.0             | v8.0   | End of life |
 | 7.0             | v7.0   | End of life |
 | 6.0             | v6.0   | End of life |
 | 5.8             | v5.8   | End of life |
