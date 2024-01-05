@@ -13,8 +13,8 @@ class CreatePalletReceptionTable extends Migration
      */
     public function up()
     {
-        Schema::create('pallet_reception', function (Blueprint $table) {
-            $table->increments('Id_reception');
+        Schema::create('abast_sitio5_reception', function (Blueprint $table) {
+            $table->increments('id_reception');
             $table->integer('id_pallet');
             $table->timestamp('entry_date');
             $table->string('location');
@@ -30,6 +30,6 @@ class CreatePalletReceptionTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('pallet_reception');
+        Schema::dropIfExists('abast_sitio5_reception');
     }
 }

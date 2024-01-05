@@ -21,7 +21,7 @@ class UserFactory extends Factory
             'name' => 'admin',
             'email' => 'admin@electrans.cl',
             'email_verified_at' => now(),
-            'password' => bcrypt('admin'), // password
+            'password' => bcrypt('password'), // password
             'remember_token' => Str::random(10),
         ];
     }

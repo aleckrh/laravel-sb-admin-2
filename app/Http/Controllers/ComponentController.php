@@ -14,7 +14,7 @@ class ComponentController extends Controller
      */
     public function index()
     {
-        //
+        return view(component_entry);
     }
 
     /**
@@ -71,7 +71,37 @@ class ComponentController extends Controller
     {
         //
     }
+    /**
+     * Muestra el informe de movimientos detallado de un componente.
+     * @param int  $idComponente
+     */
+    public function informeMovimientoDetallado($idComponente)
+    {
+        $componente = Componente::with(['receptions', 'withdrawals'])->find($idComponente);
+    
+        // Ahora puedes acceder a la información detallada
+        return view('report', compact('componente'));
+    }
 
+    public function loadFromCsv(Request $request)
+    {
+        $file = $request->file('file');
+        $csvData = file_get_contents($file);
+        $rows = array_map("str_getcsv", explode("\n", $csvData));
+        $header = array_shift($rows);
+        foreach ($rows as $row) {
+            $row = array_combine($header, $row);
+            Component::create([
+                'id_component' => $row['id_component'],
+                'name' => $row['name'],
+                'description' => $row['description'],
+                'quantity' => $row['quantity'],
+                'location' => $row['location'],
+                'user_id' => $row['user_id'],
+            ]);
+        }
+        return redirect()->route('component.index');
+    }
     /**
      * Remove the specified resource from storage.
      *

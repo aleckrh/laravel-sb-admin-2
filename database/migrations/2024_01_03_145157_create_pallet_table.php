@@ -13,7 +13,7 @@ class CreatePalletTable extends Migration
      */
     public function up()
     {
-        Schema::create('pallet_table', function (Blueprint $table) {
+        Schema::create('abast_sitio5_pallet', function (Blueprint $table) {
             $table->increments('id');
             $table->string('OP');
             $table->boolean('pallet_status');
@@ -31,6 +31,6 @@ class CreatePalletTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('pallet_table');
+        Schema::dropIfExists('abast_sitio5_pallet');
     }
 }

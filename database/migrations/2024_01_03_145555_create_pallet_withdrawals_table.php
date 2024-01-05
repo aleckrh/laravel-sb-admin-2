@@ -13,7 +13,7 @@ class CreatePalletWithdrawalsTable extends Migration
      */
     public function up()
     {
-        Schema::create('pallet_withdrawals', function (Blueprint $table) {
+        Schema::create('abast_sitio5_withdrawals', function (Blueprint $table) {
             $table->increments('Id_withdrawal');
             $table->integer('id_pallet');
             $table->timestamp('withdrawal_date');
@@ -30,6 +30,6 @@ class CreatePalletWithdrawalsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('pallet_withdrawals');
+        Schema::dropIfExists('abast_sitio5_withdrawals');
     }
 }

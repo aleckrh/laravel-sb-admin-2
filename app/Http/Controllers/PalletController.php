@@ -29,8 +29,13 @@ class PalletController extends Controller
      */
     public function create()
     {
-        // Aquí va el código para mostrar el formulario para crear un nuevo recurso Pallet
+        return view('create_pallet');
     }
+    
+    public function checkIncoming(){
+        return view('incomingRequest');
+    }
+   
 
     /**
      * Almacena un recurso Pallet recién creado en el almacenamiento.

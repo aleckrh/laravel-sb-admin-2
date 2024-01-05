@@ -31,10 +31,9 @@
 
         <!-- Sidebar - Brand -->
         <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
-            <div class="sidebar-brand-icon rotate-n-15">
-                <i class="fas fa-laugh-wink"></i>
+            <div class="sidebar-brand-icon">
+                    <img src="{{ asset('img/logo_1.png') }}" alt="Logo" width="100" height="50">
             </div>
-            <div class="sidebar-brand-text mx-3">SB Admin <sup>2</sup></div>
         </a>
 
         <!-- Divider -->
@@ -47,6 +46,7 @@
                 <span>{{ __('Dashboard') }}</span></a>
         </li>
 
+   
         <!-- Divider -->
         <hr class="sidebar-divider">
 
@@ -62,7 +62,6 @@
                 <span>{{ __('Profile') }}</span>
             </a>
         </li>
-
         <!-- Nav Item - About -->
         <li class="nav-item {{ Nav::isRoute('about') }}">
             <a class="nav-link" href="{{ route('about') }}">
@@ -70,10 +69,37 @@
                 <span>{{ __('About') }}</span>
             </a>
         </li>
+        <hr class="sidebar-divider my-0">
 
+          <!-- Nav Item - About -->
+          <li class="nav-item" >
+            <a class="nav-link" href="{{ url('/component_entry') }}">
+                <i class="fas fa-link"></i>
+                <span>Crear Pallet</span>
+            </a>
+        </li>
+    
+        <!-- Nav Item - About -->
+        <li class="nav-item" >
+            <a class="nav-link" href="{{ url('/scan-qrcode') }}">
+                <i class="fas fa-link"></i>
+                <span>Escanear Código</span>
+            </a>
+        </li>
+        <!-- Nav Item - Incoming pallet -->
+        <li class="nav-item" >
+            <a class="nav-link" href="{{ url('/incomingRequest') }}">
+                <i class="fas fa-link"></i>
+                <span>Solicitudes</span>
+            </a>
         <!-- Divider -->
         <hr class="sidebar-divider d-none d-md-block">
-
+        <li class="nav-item" >
+            <a class="nav-link" href="{{ url('/report') }}">
+                <i class="fas fa-link"></i>
+                <span>Reporte</span>
+            </a>
+        <hr class="sidebar-divider my-0">
         <!-- Sidebar Toggler (Sidebar) -->
         <div class="text-center d-none d-md-inline">
             <button class="rounded-circle border-0" id="sidebarToggle"></button>
@@ -96,17 +122,7 @@
                     <i class="fa fa-bars"></i>
                 </button>
 
-                <!-- Topbar Search -->
-                <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
-                    <div class="input-group">
-                        <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2">
-                        <div class="input-group-append">
-                            <button class="btn btn-primary" type="button">
-                                <i class="fas fa-search fa-sm"></i>
-                            </button>
-                        </div>
-                    </div>
-                </form>
+               
 
                 <!-- Topbar Navbar -->
                 <ul class="navbar-nav ml-auto">
@@ -207,10 +223,7 @@
                                     <img class="rounded-circle" src="https://source.unsplash.com/AU4VPcFN4LE/60x60" alt="">
                                     <div class="status-indicator"></div>
                                 </div>
-                                <div>
-                                    <div class="text-truncate">I have the photos that you ordered last month, how would you like them sent to you?</div>
-                                    <div class="small text-gray-500">Jae Chun · 1d</div>
-                                </div>
+                                
                             </a>
                             <a class="dropdown-item d-flex align-items-center" href="#">
                                 <div class="dropdown-list-image mr-3">
@@ -286,7 +299,7 @@
         <footer class="sticky-footer bg-white">
             <div class="container my-auto">
                 <div class="copyright text-center my-auto">
-                    <span>Copyright &copy; Alejandro RH {{ now()->year }}</span>
+                    <span>Copyright &copy;Electrans {{ now()->year }}</span>
                 </div>
             </div>
         </footer>

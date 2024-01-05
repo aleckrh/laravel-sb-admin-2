@@ -13,7 +13,7 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('OP', function (Blueprint $table) {
+        Schema::create('abast_sitio5_OP', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
         });
@@ -26,6 +26,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('OP');
+        Schema::dropIfExists('abast_sitio5_OP');
     }
 };
