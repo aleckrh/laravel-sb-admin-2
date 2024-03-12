@@ -4,11 +4,10 @@ SB Admin 2 for Laravel.
 
 | Laravel Version | Branch | Support     |
 |-----------------|--------|-------------|
-| 9.0             | master |             |
+| 11.0            | main   |             |
+| 10.0            | v10.0  |             |
+| 9.0             | v9.0   | End of life |
 | 8.0             | v8.0   | End of life |
-| 7.0             | v7.0   | End of life |
-| 6.0             | v6.0   | End of life |
-| 5.8             | v5.8   | End of life |
 
 ## Requirements
 
