@@ -5,17 +5,16 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Laporan extends Model
+class Images extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'judul',
-        'ringkasan',
-        'file'
+        'laporan_id',
+        'image'
     ];
 
-    public function image(){
-        return $this->hasMany(Image::class);
+    public function laporan(){
+        return $this->belongsTo(Laporan::class);
     }
 }
