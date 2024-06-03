@@ -13,8 +13,10 @@ return new class extends Migration
     {
         Schema::create('laporans', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('user_id');
             $table->string('judul');
             $table->string('ringkasan');
+            $table->string('foto');
             $table->text('file');
             $table->timestamps();
         });

@@ -10,12 +10,14 @@ class Laporan extends Model
     use HasFactory;
 
     protected $fillable = [
+        'user_id',
         'judul',
         'ringkasan',
+        'foto',
         'file'
     ];
 
-    public function image(){
-        return $this->hasMany(Image::class);
+    public function user(){
+        return $this->belongsTo(User::class);
     }
 }

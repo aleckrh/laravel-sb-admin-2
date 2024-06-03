@@ -24,6 +24,8 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 
 Route::get('/laporan', 'LaporanController@index')->name('laporan');
+Route::get('/laporan/create', 'LaporanController@create')->name('laporan.create');
+Route::post('/laporan', 'LaporanController@store')->name('laporan.store');
 
 Route::get('/profile', 'ProfileController@index')->name('profile');
 Route::put('/profile', 'ProfileController@update')->name('profile.update');

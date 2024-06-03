@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Laporan;
 use Illuminate\Http\Request;
 
 class LaporanController extends Controller
@@ -11,7 +12,8 @@ class LaporanController extends Controller
      */
     public function index()
     {
-        return view('admin.laporan.index');
+        $dataLaporan = Laporan::all();
+        return view('admin.laporan.index', compact('dataLaporan'));
     }
 
     /**
@@ -19,7 +21,7 @@ class LaporanController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.laporan.create');
     }
 
     /**
@@ -27,8 +29,43 @@ class LaporanController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
+        $request->validate([
+            'foto.*'    => 'required|image|mimes:jpeg,jpg,png,gif,svg|max:5120',
+            'file'      => 'required'
+        ]);
+
+        $fileUpload = $request->file('file');
+        $fileName = time().'_'.$fileUpload->getClientOriginalName();
+        $fileUpload->move(public_path('gambar'),$fileName);
+
+
+        foreach($request->foto as $value){
+            $imageName = time().'_'.$value->getClientOriginalName();
+            $value->move(public_path('gambar'),$imageName);
+
+            $imagesNames[] = $imageName;
+        }
+
+        
+
+
+        $storeLaporan = new Laporan([
+            'user_id'       => auth()->user()->id,
+            'judul'         => $request->judul,
+            'ringkasan'     => $request->ringkasan,
+            'file'          => $fileName,
+            'foto'          => $imageName
+        ]);
+
+        // dd($request->all());
+
+
+        $storeLaporan->save();
+
+        return redirect('laporan/');
     }
+
 
     /**
      * Display the specified resource.
