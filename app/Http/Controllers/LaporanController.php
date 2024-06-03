@@ -37,7 +37,7 @@ class LaporanController extends Controller
 
         $fileUpload = $request->file('file');
         $fileName = time().'_'.$fileUpload->getClientOriginalName();
-        $fileUpload->move(public_path('gambar'),$fileName);
+        $fileUpload->move(public_path('file'),$fileName);
 
 
         foreach($request->foto as $value){
@@ -46,9 +46,6 @@ class LaporanController extends Controller
 
             $imagesNames[] = $imageName;
         }
-
-        
-
 
         $storeLaporan = new Laporan([
             'user_id'       => auth()->user()->id,
