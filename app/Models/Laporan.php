@@ -13,11 +13,16 @@ class Laporan extends Model
         'user_id',
         'judul',
         'ringkasan',
-        'foto',
+        'deskripsi',
         'file'
     ];
 
     public function user(){
         return $this->belongsTo(User::class);
     }
+
+    public function foto(){
+        return $this->hasMany(Foto::class);
+    }
+
 }

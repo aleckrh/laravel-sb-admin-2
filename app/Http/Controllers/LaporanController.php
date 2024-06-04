@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Foto;
 use App\Models\Laporan;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Log;
 
 class LaporanController extends Controller
 {
@@ -30,46 +33,61 @@ class LaporanController extends Controller
     public function store(Request $request)
     {
 
-        $request->validate([
-            'foto.*'    => 'required|image|mimes:jpeg,jpg,png,gif,svg|max:5120',
-            'file'      => 'required'
-        ]);
+        try {
+                
+            $request->validate([
+                'foto'      => 'required',
+                'foto.*'    => 'required|image|mimes:jpeg,jpg,png,gif,svg|max:5120',
+                'file'      => 'required'
+            ]);
+    
+            $fileUpload = $request->file('file');
+            $fileName = time().'_'.$fileUpload->getClientOriginalName();
+            $fileUpload->move(public_path('file'),$fileName);
+    
+            $storeLaporan = new Laporan([
+                'user_id'       => auth()->user()->id,
+                'judul'         => $request->judul,
+                'ringkasan'     => $request->ringkasan,
+                'deskripsi'     => $request->deskripsi,
+                'file'          => $fileName,
+            ]);
+    
+            $storeLaporan->save();
+            
+    
+            
+            if($request->hasFile("foto")){
+                $files=$request->file("foto");
+                foreach($files as $file){
+                    $imageName              = time().'_'.$file->getClientOriginalName();
+                    $uploadFoto = new Foto([
+                        
+                        'laporan_id'    => $storeLaporan->id,
+                        'foto'          => $imageName
+                    ]);
+                    
+                    $file->move(public_path('gambar'),$imageName);
+                    
+                    $uploadFoto->save();
+                }
+                
+            }
+            return redirect('laporan/');
 
-        $fileUpload = $request->file('file');
-        $fileName = time().'_'.$fileUpload->getClientOriginalName();
-        $fileUpload->move(public_path('file'),$fileName);
-
-
-        foreach($request->foto as $value){
-            $imageName = time().'_'.$value->getClientOriginalName();
-            $value->move(public_path('gambar'),$imageName);
-
-            $imagesNames[] = $imageName;
+        } catch (\Throwable $th) {
+            Log::error($th);
+            $th->getMessage();
+            return view('admin.view.error',compact('th'));
         }
 
-        $storeLaporan = new Laporan([
-            'user_id'       => auth()->user()->id,
-            'judul'         => $request->judul,
-            'ringkasan'     => $request->ringkasan,
-            'file'          => $fileName,
-            'foto'          => $imageName
-        ]);
-
-        // dd($request->all());
-
-
-        $storeLaporan->save();
-
-        return redirect('laporan/');
+       
     }
 
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
+    public function show($id)
     {
-        //
+        $dataLaporan = Laporan::findOrFail($id);
+        return view('admin.laporan.view',compact('dataLaporan'));
     }
 
     /**
@@ -77,7 +95,8 @@ class LaporanController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $dataLaporan = Laporan::find($id);
+        return view('admin.laporan.edit',compact('dataLaporan'));
     }
 
     /**
@@ -91,8 +110,20 @@ class LaporanController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy( $id)
     {
-        //
+        $dataLaporan = Laporan::findOrFail($id);
+        if(File::exists("file/".$dataLaporan->file)){
+            File::delete("file/".$dataLaporan->file);
+        }
+
+        $fotoLaporan = $dataLaporan->foto;
+
+        dd($fotoLaporan);
+
+    }
+
+    public function error(){
+        return view('admin.error.view');
     }
 }

@@ -62,8 +62,16 @@
                                     <td>{{$row->judul}}</td>
                                     <td>{{$row->ringkasan}}</td>
                                     <td>{{$row->user->name}} {{$row->user->last_name}}</td>
-                                    <td>
-                                        
+                                    <td class="row">
+                                        <div class="col">
+                                            <a class="btn btn-info" href="{{route('laporan.show',$row->id)}}">Detail</a>
+                                            <a class="btn btn-warning" href="{{route('laporan.edit',$row->id)}}">Edit</a>
+                                            <form action="{{route('laporan.destroy',$row->id)}}" method="POST">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button class="btn btn-danger" type="submit">Hapus</button>
+                                            </form>
+                                        </div>
                                     </td>
                                 </tr>
                                 @endforeach
