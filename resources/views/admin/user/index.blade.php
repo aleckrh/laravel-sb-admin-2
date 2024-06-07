@@ -62,13 +62,13 @@
                                     <td>{{$row->name}} {{$row->last_name}}</td>
                                     <td>{{$row->level}}</td>
                                     <td>{{$row->email}}</td>
-                                    <td class="row">
-                                        <div class="col">
-                                            <a class="btn btn-warning" href="{{route('user.edit',$row->id)}}">Edit</a>
+                                    <td class="text-right">
+                                        <div class="btn-group">
+                                            <a class="btn btn-sm btn-warning mr-2" href="{{route('user.edit',$row->id)}}"><i class="fas fa-fw fa-edit"></i></a>
                                             <form action="{{route('user.destroy',$row->id)}}" method="POST">
                                                 @csrf
                                                 @method('DELETE')
-                                                <button class="btn btn-danger" type="submit">Hapus</button>
+                                                <button class="btn btn-sm btn-danger mr-2" type="submit"><i class="fas fa-fw fa-trash-alt"></i></button>
                                             </form>
                                         </div>
                                     </td>

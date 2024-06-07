@@ -34,13 +34,11 @@
 
             <div class="card-body">
 
-                <form action="{{ route('user.update',$dataUser->id) }}" autocomplete="off" enctype="multipart/form-data">
-                    @method('PATCH')
+                <form method="POST" action="{{ route('user.update',$dataUser->id) }}" autocomplete="off" enctype="multipart/form-data">
+                    @method('PUT')
+                    @csrf
 
-                    <input type="hidden" name="_token" value="{{ csrf_token() }}">
-
-                    {{-- <input type="hidden" name="_method" value="POST"> --}}
-
+                    
                     <div class="pl-lg-4">
                         <div class="row">
                             <div class="col-lg-12">
@@ -101,7 +99,7 @@
                     <div class="pl-lg-4">
                         <div class="row">
                             <div class="col text-right">
-                                <button type="submit" class="btn btn-primary">Buat User</button>
+                                <button type="submit" class="btn btn-primary">Update User</button>
                             </div>
                         </div>
                     </div>

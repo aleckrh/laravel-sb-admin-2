@@ -34,26 +34,30 @@
 
             <div class="card-body">
 
+                <form method="POST" action="{{ route('laporan.update',$dataLaporan->id) }}" autocomplete="off" enctype="multipart/form-data">
+                    @method('PUT')
+                    @csrf
+
                     <div class="pl-lg-4">
                         <div class="row">
                             <div class="col-lg-12">
                                 <div class="form-group">
                                     <label class="form-control-label" for="judul">Judul Laporan</label>
-                                    <input type="text" id="judul" class="form-control" name="judul" value="{{old('judul',$dataLaporan->judul)}}">
+                                    <input type="text" id="judul" class="form-control" name="judul" value="{{$dataLaporan->judul}}">
                                 </div>
                             </div>
 
                             <div class="col-lg-12">
                                 <div class="form-group">
                                     <label class="form-control-label" for="ringkasan">Ringkasan Laporan</label>
-                                    <input type="text" id="ringkasan" class="form-control" name="ringkasan" value="{{old('ringkasan', $dataLaporan->ringkasan)}}">
+                                    <input type="text" id="ringkasan" class="form-control" name="ringkasan" value="{{$dataLaporan->ringkasan}}">
                                 </div>
                             </div>
 
                             <div class="col-lg-12">
                                 <div class="form-group">
-                                    <label class="form-control-label" for="ringkasan">Deskripsi Laporan</label>
-                                    <textarea type="text" id="deskripsi" class="form-control" name="deskripsi">{{old('deskripsi', $dataLaporan->deskripsi)}}</textarea>
+                                    <label class="form-control-label" for="file">Deskripsi Laporan</label>
+                                    <textarea type="text" id="deskripsi" class="form-control" name="deskripsi" >{{$dataLaporan->deskripsi}}</textarea>
                                 </div>
                             </div>
 
@@ -70,6 +74,7 @@
                                     <input type="file" id="file" class="form-control" name="file">
                                 </div>
                             </div>
+
                         </div>
                     </div>
 
@@ -81,6 +86,8 @@
                             </div>
                         </div>
                     </div>
+                </form>
+
             </div>
 
         </div>

@@ -15,6 +15,7 @@
         "laravel/legacy-factories": "^1.0",
         "laravel/tinker": "^2.8",
         "laravel/ui": "^4.0",
+        "realrashid/sweet-alert": "^7.1",
         "symfony/http-client": "^6.1",
         "symfony/mailgun-mailer": "^6.1",
         "symfony/postmark-mailer": "^6.1"

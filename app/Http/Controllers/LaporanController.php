@@ -34,17 +34,17 @@ class LaporanController extends Controller
     {
 
         try {
-                
+
             $request->validate([
                 'foto'      => 'required',
                 'foto.*'    => 'required|image|mimes:jpeg,jpg,png,gif,svg|max:5120',
                 'file'      => 'required'
             ]);
-    
+
             $fileUpload = $request->file('file');
-            $fileName = time().'_'.$fileUpload->getClientOriginalName();
-            $fileUpload->move(public_path('file'),$fileName);
-    
+            $fileName = time() . '_' . $fileUpload->getClientOriginalName();
+            $fileUpload->move(public_path('file'), $fileName);
+
             $storeLaporan = new Laporan([
                 'user_id'       => auth()->user()->id,
                 'judul'         => $request->judul,
@@ -52,42 +52,37 @@ class LaporanController extends Controller
                 'deskripsi'     => $request->deskripsi,
                 'file'          => $fileName,
             ]);
-    
+
             $storeLaporan->save();
-            
-    
-            
-            if($request->hasFile("foto")){
-                $files=$request->file("foto");
-                foreach($files as $file){
-                    $imageName              = time().'_'.$file->getClientOriginalName();
-                    $uploadFoto = new Foto([
-                        
+
+
+
+            if ($request->hasFile("foto")) {
+                $files = $request->file("foto");
+                foreach ($files as $file) {
+                    $imageName      = time() . '_' . $file->getClientOriginalName();
+                    $uploadFoto     = new Foto([
                         'laporan_id'    => $storeLaporan->id,
                         'foto'          => $imageName
                     ]);
-                    
-                    $file->move(public_path('gambar'),$imageName);
-                    
+                    $file->move(public_path('gambar'), $imageName);
                     $uploadFoto->save();
                 }
-                
             }
-            return redirect('laporan/');
 
+
+            return redirect('laporan/');
         } catch (\Throwable $th) {
             Log::error($th);
             $th->getMessage();
-            return view('admin.view.error',compact('th'));
+            return view('admin.view.error', compact('th'));
         }
-
-       
     }
 
     public function show($id)
     {
         $dataLaporan = Laporan::findOrFail($id);
-        return view('admin.laporan.view',compact('dataLaporan'));
+        return view('admin.laporan.view', compact('dataLaporan'));
     }
 
     /**
@@ -96,7 +91,7 @@ class LaporanController extends Controller
     public function edit(string $id)
     {
         $dataLaporan = Laporan::find($id);
-        return view('admin.laporan.edit',compact('dataLaporan'));
+        return view('admin.laporan.edit', compact('dataLaporan'));
     }
 
     /**
@@ -104,26 +99,83 @@ class LaporanController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $request->validate([
+            'foto'      => 'required',
+            'foto.*'    => 'required|image|mimes:jpeg,jpg,png,gif,svg|max:5120',
+            'file'      => 'required'
+        ]);
+
+
+
+        $dataLaporan = Laporan::findOrFail($id);
+
+
+        if (File::exists('file/' . $dataLaporan->file)) {
+            File::delete('file/' . $dataLaporan->file);
+
+            $request->file('file')->move(public_path('file'), time() . '_' .$request->file('file')->getClientOriginalName());
+            $dataLaporan->file = time() . '_' .$request->file('file')->getClientOriginalName();
+
+            $dataLaporan->user_id       = $dataLaporan->user_id;
+            $dataLaporan->judul         = $request->judul;
+            $dataLaporan->ringkasan     = $request->ringkasan;
+            $dataLaporan->deskripsi     = $request->deskripsi;
+        }
+
+        foreach ($dataLaporan->foto as $foto) {
+            if (File::exists('gambar/' . $foto->foto)) {
+                File::delete('gambar/' . $foto->foto);
+            }
+            $foto->delete();
+        }
+
+        if ($request->hasFile("foto")) {
+            $files = $request->file("foto");
+            foreach ($files as $file) {
+                $imageName      = time() . '_' . $file->getClientOriginalName();
+                $uploadFoto     = new Foto([
+                    'laporan_id'    => $dataLaporan->id,
+                    'foto'          => $imageName
+                ]);
+                $file->move(public_path('gambar'), $imageName);
+                $uploadFoto->save();
+            }
+        }
+
+        // dd($dataLaporan->foto);
+
+
+
+        $dataLaporan->update();
+
+
+
+        return redirect('/laporan');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy( $id)
+    public function destroy($id)
     {
         $dataLaporan = Laporan::findOrFail($id);
-        if(File::exists("file/".$dataLaporan->file)){
-            File::delete("file/".$dataLaporan->file);
+        if (File::exists("file/" . $dataLaporan->file)) {
+            File::delete("file/" . $dataLaporan->file);
         }
 
-        $fotoLaporan = $dataLaporan->foto;
 
-        dd($fotoLaporan);
+        foreach ($dataLaporan->foto as $foto) {
+            if (File::exists('gambar/' . $foto->foto)) {
+                File::delete('gambar/' . $foto->foto);
+            }
+        }
 
+        $dataLaporan->delete();
+        return redirect('/laporan');
     }
 
-    public function error(){
+    public function error()
+    {
         return view('admin.error.view');
     }
 }
