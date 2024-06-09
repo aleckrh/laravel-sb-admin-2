@@ -7,6 +7,7 @@ use App\Models\Laporan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Log;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class LaporanController extends Controller
 {
@@ -33,7 +34,7 @@ class LaporanController extends Controller
     public function store(Request $request)
     {
 
-        try {
+        // try {
 
             $request->validate([
                 'foto'      => 'required',
@@ -48,14 +49,13 @@ class LaporanController extends Controller
             $storeLaporan = new Laporan([
                 'user_id'       => auth()->user()->id,
                 'judul'         => $request->judul,
-                'ringkasan'     => $request->ringkasan,
                 'deskripsi'     => $request->deskripsi,
+                'lokasi'        => $request->lokasi,
                 'file'          => $fileName,
+                'status'        => $request->status,
             ]);
 
             $storeLaporan->save();
-
-
 
             if ($request->hasFile("foto")) {
                 $files = $request->file("foto");
@@ -70,20 +70,18 @@ class LaporanController extends Controller
                 }
             }
 
-
+            Alert::success('Berhasil','Laporan Terkirim!');
             return redirect('laporan/');
-        } catch (\Throwable $th) {
-            Log::error($th);
-            $th->getMessage();
-            return view('admin.view.error', compact('th'));
-        }
+            
+
+        // } catch (\Throwable $th) {
+        //     Log::error($th);
+        //     $th->getMessage();
+        //     return view('admin.error.view', compact('th'));
+        // }
     }
 
-    public function show($id)
-    {
-        $dataLaporan = Laporan::findOrFail($id);
-        return view('admin.laporan.view', compact('dataLaporan'));
-    }
+    
 
     /**
      * Show the form for editing the specified resource.
@@ -113,12 +111,17 @@ class LaporanController extends Controller
         if (File::exists('file/' . $dataLaporan->file)) {
             File::delete('file/' . $dataLaporan->file);
 
-            $request->file('file')->move(public_path('file'), time() . '_' .$request->file('file')->getClientOriginalName());
-            $dataLaporan->file = time() . '_' .$request->file('file')->getClientOriginalName();
+            // $request->file('file')->move(public_path('file'), time() . '_' .$request->file('file')->getClientOriginalName()); 
+            // $dataLaporan->file          = time() . '_' .$request->file('file')->getClientOriginalName();
 
+            $fileUpload = $request->file('file');
+            $fileName = time() . '_' . $fileUpload->getClientOriginalName();
+            $fileUpload->move(public_path('file'), $fileName);
+
+            $dataLaporan->file          = $fileName;
             $dataLaporan->user_id       = $dataLaporan->user_id;
             $dataLaporan->judul         = $request->judul;
-            $dataLaporan->ringkasan     = $request->ringkasan;
+            $dataLaporan->lokasi        = $request->lokasi;
             $dataLaporan->deskripsi     = $request->deskripsi;
         }
 
@@ -149,7 +152,7 @@ class LaporanController extends Controller
         $dataLaporan->update();
 
 
-
+        Alert::success('Berhasil','Laporan Diupdate!');
         return redirect('/laporan');
     }
 
@@ -178,4 +181,31 @@ class LaporanController extends Controller
     {
         return view('admin.error.view');
     }
+
+    public function show($id)
+    {
+        $dataLaporan = Laporan::findOrFail($id);
+        $fotoLaporan = $dataLaporan->foto;
+        
+        return view('admin.laporan.view', compact('dataLaporan','fotoLaporan'));
+    }
+
+    public function checkLaporan($id)
+    {
+        $dataLaporan = Laporan::findOrFail($id);
+        $fotoLaporan = $dataLaporan->foto;
+        
+        return view('admin.laporan.agree',compact('dataLaporan','fotoLaporan'));
+    }
+
+    public function setuju(Request $request ,$id)
+    {
+        $dataLaporan = Laporan::findOrFail($id);
+        $dataLaporan->status = $request->status;
+
+        $dataLaporan->update();
+        
+        return redirect('/laporan');
+    }
+
 }

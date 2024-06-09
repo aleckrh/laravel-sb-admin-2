@@ -34,8 +34,16 @@
 
             <div class="card-body">
 
+                <form method="POST" action="{{ route('laporan.agree',$dataLaporan->id) }}" autocomplete="off" enctype="multipart/form-data">
+                    @method('PUT')
+                    @csrf
+
+                    <input type="hidden" name="status" value="Sudah Disetujui">
+
                     <div class="pl-lg-4">
                         <div class="row">
+
+                            
                             <div class="col-lg-12">
                                 <div class="form-group">
                                     <label class="form-control-label" for="judul">Judul Laporan</label>
@@ -59,9 +67,10 @@
 
                             <div class="col-lg-12">
                                 <div class="form-group text-center">
-                                    <div class="container" >
+                                    <div class="container">
                                     @foreach ($fotoLaporan as $item)
                                         <img class="image-fluid mb-4" src="{{asset('gambar/'.$item->foto)}}" alt="Responsive image">
+                                        {{-- <label>{{$item->foto}}</label> --}}
                                     @endforeach
                                     </div>
                                 </div>
@@ -70,8 +79,11 @@
                             <div class="col-lg-12">
                                 <div class="form-group">
                                     <label class="form-control-label" for="file">{{$dataLaporan->file}}</label>
+                                    {{-- <a href="{{route('download', $dataLaporan->file) }}">{{$dataLaporan->file}}</a> --}}
                                 </div>
                             </div>
+
+                            <input type="hidden">
 
 
                         </div>
@@ -83,9 +95,25 @@
                             <div class="col text-left">
                                 <a href="{{route('laporan')}}" class="btn btn-light">Kembali</a>
                             </div>
+
+                            @if ($dataLaporan->status == "Belum Disetujui")
+                            <div class="col text-right">
+                                <button type="submit" class="btn btn-primary">Setujui</a>
+                            </div>
+                            @endif
                             
+                            @if ($dataLaporan->status == "Sudah Disetujui")
+                            <div class="col text-right">
+                                <button type="submit" class="btn btn-primary" disabled>Sudah Disetujui</a>
+                            </div>
+                            @endif
+
+
+
                         </div>
                     </div>
+
+                </form>
 
             </div>
 

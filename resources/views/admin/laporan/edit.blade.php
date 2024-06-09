@@ -38,6 +38,8 @@
                     @method('PUT')
                     @csrf
 
+                    <input type="hidden" name="status" id="status" value="{{$dataLaporan->status}}">
+
                     <div class="pl-lg-4">
                         <div class="row">
                             <div class="col-lg-12">
@@ -49,8 +51,8 @@
 
                             <div class="col-lg-12">
                                 <div class="form-group">
-                                    <label class="form-control-label" for="ringkasan">Ringkasan Laporan</label>
-                                    <input type="text" id="ringkasan" class="form-control" name="ringkasan" value="{{$dataLaporan->ringkasan}}">
+                                    <label class="form-control-label" for="lokasi">Ringkasan Laporan</label>
+                                    <input type="text" id="lokasi" class="form-control" name="lokasi" value="{{$dataLaporan->lokasi}}">
                                 </div>
                             </div>
 

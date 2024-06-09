@@ -38,6 +38,8 @@
                     <input type="hidden" name="_token" value="{{ csrf_token() }}">
 
                     {{-- <input type="hidden" name="_method" value="POST"> --}}
+                    
+                    <input type="hidden"  name="status" value="Belum Disetujui">
 
                     <div class="pl-lg-4">
                         <div class="row">
@@ -50,15 +52,15 @@
 
                             <div class="col-lg-12">
                                 <div class="form-group">
-                                    <label class="form-control-label" for="ringkasan">Ringkasan Laporan</label>
-                                    <input type="text" id="ringkasan" class="form-control" name="ringkasan">
+                                    <label class="form-control-label" for="file">Deskripsi Laporan</label>
+                                    <textarea type="text" id="deskripsi" class="form-control" name="deskripsi"></textarea>
                                 </div>
                             </div>
 
                             <div class="col-lg-12">
                                 <div class="form-group">
-                                    <label class="form-control-label" for="file">Deskripsi Laporan</label>
-                                    <textarea type="text" id="deskripsi" class="form-control" name="deskripsi"></textarea>
+                                    <label class="form-control-label" for="lokasi">Lokasi</label>
+                                    <input type="text" id="lokasi" class="form-control" name="lokasi">
                                 </div>
                             </div>
 

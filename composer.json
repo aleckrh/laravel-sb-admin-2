@@ -11,6 +11,7 @@
         "php": "^8.2",
         "devmarketer/easynav": "^1.0",
         "guzzlehttp/guzzle": "^7.0.1",
+        "laravel-notification-channels/telegram": "^5.0",
         "laravel/framework": "^11.0",
         "laravel/legacy-factories": "^1.0",
         "laravel/tinker": "^2.8",

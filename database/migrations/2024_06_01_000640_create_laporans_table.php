@@ -15,9 +15,10 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('user_id');
             $table->string('judul');
-            $table->string('ringkasan');
             $table->string('deskripsi');
+            $table->string('lokasi');
             $table->text('file');
+            $table->string('status');
             $table->timestamps();
         });
     }

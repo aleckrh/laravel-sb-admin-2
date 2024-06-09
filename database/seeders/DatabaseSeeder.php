@@ -12,6 +12,11 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
+
+        $this->call([
+            AdminSeeder::class,
+            RoleTableSeeder::class
+        ]);
         // \App\Models\User::factory(10)->create();
 
         // \App\Models\User::factory()->create([
@@ -19,11 +24,11 @@ class DatabaseSeeder extends Seeder
         //     'email' => 'test@example.com',
         // ]);
 
-         \App\Models\User::factory()->create([
-             'name' => 'John',
-             'last_name' => 'Doe',
-             'password' => 'password',
-             'email' => 'test@example.com',
-         ]);
+        //  \App\Models\User::factory()->create([
+        //      'name' => 'John',
+        //      'last_name' => 'Doe',
+        //      'password' => 'password',
+        //      'email' => 'test@example.com',
+        //  ]);
     }
 }

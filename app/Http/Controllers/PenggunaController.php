@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Role;
 use App\Models\User;
 use Illuminate\Http\Request;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class PenggunaController extends Controller
 {
@@ -14,6 +15,10 @@ class PenggunaController extends Controller
     public function index()
     {
         $dataUser = User::all();
+
+        $title = 'Hapus User!';
+        $text = "Apakah Anda Yakin Ingin Menghapus?";
+        confirmDelete($title, $text);
 
         return view('admin.user.index',compact('dataUser'));
     }
@@ -36,6 +41,8 @@ class PenggunaController extends Controller
         $request->validate([
             'name'      => 'required',
             'email'     => 'required|email|unique:users',
+            'level'     => 'required',
+            'telp'      => 'required',
             'password'  => 'required|same:password_confirmation'
         ]);
 
@@ -43,12 +50,14 @@ class PenggunaController extends Controller
             'name'      => $request->name,
             'last_name' => $request->last_name,
             'level'     => $request->level,
+            'telp'      => $request->telp,
             'email'     => $request->email,
             'password'  => $request->password,
         ]);
 
         $saveUser->save();
 
+        Alert::success('Berhasil','Data Tersimpan !');
         return redirect('/user');
     }
 
@@ -85,11 +94,13 @@ class PenggunaController extends Controller
         $dataUser               = User::find($id);
         $dataUser->last_name    = $request->last_name;
         $dataUser->level        = $request->level;
+        $dataUser->telp         = $request->telp;
         $dataUser->email        = $request->email;
         $dataUser->password     = $request->password;
 
         $dataUser->update();
 
+        Alert::toast('Data Diupdate !','success');
         return redirect('/user');
     }
 
@@ -102,6 +113,6 @@ class PenggunaController extends Controller
 
         $dataUser->delete();
 
-        return redirect('/user');
+        return back();
     }
 }

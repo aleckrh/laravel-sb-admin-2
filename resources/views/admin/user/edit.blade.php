@@ -57,6 +57,13 @@
 
                             <div class="col-lg-12">
                                 <div class="form-group">
+                                    <label class="form-control-label" for="telp">No Whatsapp</label>
+                                    <input type="text" id="telp" class="form-control" name="telp" value="{{$dataUser->telp}}">
+                                </div>
+                            </div>
+
+                            <div class="col-lg-12">
+                                <div class="form-group">
                                     <label class="form-control-label" for="file">Level</label>
                                     <select class="form-control" name="level" id="level">
                                         @foreach ($listRole as $item)

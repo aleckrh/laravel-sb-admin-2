@@ -30,7 +30,7 @@
         <div class="pl-lg-4 mb-3">
             <div class="row">
                 <div class="col text-right">
-                    <a href="{{route('user.create')}}" class="btn btn-primary">
+                    <a href="{{ route('user.create') }}" class="btn btn-primary">
                         <i class="fas fa-fw fa-plus mr-2"></i>
                         <span class="font-weight-bold">{{ __('Tambahkan User') }}</span></a>
                     </a>
@@ -55,31 +55,36 @@
                                 <th>Action</th>
                             </tr>
                         </thead>
-                            <tbody>
-                                @foreach($dataUser as $i => $row)
+                        <tbody>
+                            @foreach ($dataUser as $i => $row)
                                 <tr>
-                                    <td class="col-sm-1">{{++$i}}</td>
-                                    <td>{{$row->name}} {{$row->last_name}}</td>
-                                    <td>{{$row->level}}</td>
-                                    <td>{{$row->email}}</td>
+                                    <td class="col-sm-1">{{ ++$i }}</td>
+                                    <td>{{ $row->name }} {{ $row->last_name }}</td>
+                                    <td>{{ $row->level }}</td>
+                                    <td>{{ $row->email }}</td>
                                     <td class="text-right">
                                         <div class="btn-group">
-                                            <a class="btn btn-sm btn-warning mr-2" href="{{route('user.edit',$row->id)}}"><i class="fas fa-fw fa-edit"></i></a>
-                                            <form action="{{route('user.destroy',$row->id)}}" method="POST">
+                                            <a class="btn btn-sm btn-warning mr-2" href="{{ route('user.edit', $row->id) }}"><i class="fas fa-fw fa-edit"></i></a>
+                                            <a data-confirm-delete="true" class="btn btn-sm btn-danger mr-2"href="{{ route('user.destroy', $row->id) }}"><i class="fas fa-fw fa-trash-alt"></i></a>
+
+
+                                            {{-- <form action="{{route('user.destroy',$row->id)}}" method="POST">
                                                 @csrf
                                                 @method('DELETE')
                                                 <button class="btn btn-sm btn-danger mr-2" type="submit"><i class="fas fa-fw fa-trash-alt"></i></button>
-                                            </form>
+                                            </form> --}}
                                         </div>
                                     </td>
                                 </tr>
-                                @endforeach
-                            </tbody>
+                            @endforeach
+                        </tbody>
                     </table>
                 </div>
             </div>
         </div>
 
     </div>
+
+
 
 @endsection

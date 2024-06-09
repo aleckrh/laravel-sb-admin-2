@@ -31,15 +31,17 @@ Route::group(['middleware' => ['auth','RoleLevel:General Manager,Admin,Manager T
 
 Route::group(['middleware' => ['auth','RoleLevel:Admin,Manager Teknik,Pelapor']], function(){
     Route::get('/laporan/create', 'LaporanController@create')->name('laporan.create');
-    Route::post('/laporan', 'LaporanController@store')->name('laporan.store');
+    Route::post('/laporan/store', 'LaporanController@store')->name('laporan.store');
     Route::put('/laporan/{id}/update', 'LaporanController@update')->name('laporan.update');
     Route::get('/laporan/{id}/edit', 'LaporanController@edit')->name('laporan.edit');
     Route::get('/laporan/{id}/detail', 'LaporanController@show')->name('laporan.show');
-    Route::delete('/laporan/{id}/destroy', 'LaporanController@destroy')->name('laporan.destroy');
- 
+    Route::get('/laporan/{id}/destroy', 'LaporanController@destroy')->name('laporan.destroy');
 });
 
-
+Route::group(['middleware' => ['auth','RoleLevel:Admin,Manager Teknik']], function(){
+    Route::get('/laporan/{id}/check', 'LaporanController@checkLaporan')->name('laporan.check');
+    Route::put('/laporan/{id}/confirm', 'LaporanController@setuju')->name('laporan.agree');
+});
 
 Route::group(['middleware' => ['auth','RoleLevel:Admin']], function(){
     Route::get('/user' , 'PenggunaController@index')->name('user.index');
@@ -47,7 +49,7 @@ Route::group(['middleware' => ['auth','RoleLevel:Admin']], function(){
     Route::post('/user/store' , 'PenggunaController@store')->name('user.store');
     Route::get('/user/{id}/edit' , 'PenggunaController@edit')->name('user.edit');
     Route::put('/user/{id}/update' , 'PenggunaController@update')->name('user.update');
-    Route::delete('/user/{id}/destroy' , 'PenggunaController@destroy')->name('user.destroy');
+    Route::get('/user/{id}/destroy' , 'PenggunaController@destroy')->name('user.destroy');
 });
 
 // Route::group(['middleware' => ['auth','RoleLevel:gm']], function(){

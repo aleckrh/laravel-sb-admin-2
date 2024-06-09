@@ -52,8 +52,9 @@
                             <tr>
                                 <th class="col-sm-1">No</th>
                                 <th>Judul</th>
-                                <th>Ringkasan</th>
+                                <th>Lokasi</th>
                                 <th>Pelapor</th>
+                                <th>Status</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -62,17 +63,20 @@
                                 <tr>
                                     <td class="col-sm-1">{{ ++$i }}</td>
                                     <td>{{ $row->judul }}</td>
-                                    <td>{{ $row->ringkasan }}</td>
+                                    <td>{{ $row->lokasi }}</td>
                                     <td>{{ $row->user->name }} {{ $row->user->last_name }}</td>
+                                    <td>{{ $row->status }}</td>
                                     <td class="text-right">
                                         <div class="btn-group">
+                                            @if (auth()->user()->level=='Admin'| auth()->user()->level=='Manager Teknik')
+                                            <a class="btn btn-success btn-sm mr-2" href="{{ route('laporan.check', $row->id) }}"><i class="fas fa-fw fa-circle-check"></i></a>
+                                            @endif
+
+                                            @if (auth()->user()->level=='Admin' | auth()->user()->level=='General Manager' | auth()->user()->level=='Pelapor')     
                                             <a class="btn btn-info btn-sm mr-2" href="{{ route('laporan.show', $row->id) }}"><i class="fas fa-fw fa-circle-info"></i></a>
+                                            @endif
                                             <a class="btn btn-warning btn-sm mr-2"href="{{ route('laporan.edit', $row->id) }}"><i class="fas fa-fw fa-edit"></i></a>
-                                            <form action="{{ route('laporan.destroy', $row->id) }}" method="POST">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button class="btn btn-danger btn-sm mr-2" type="submit"><i class="fas fa-fw fa-trash-alt"></i></button>
-                                            </form>
+                                            <a class="btn btn-danger btn-sm mr-2"href="{{ route('laporan.destroy', $row->id) }}"><i class="fas fa-trash-alt"></i></a>
                                         </div>
 
                                     </td>
