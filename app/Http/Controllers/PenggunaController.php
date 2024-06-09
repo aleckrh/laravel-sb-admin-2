@@ -57,7 +57,7 @@ class PenggunaController extends Controller
 
         $saveUser->save();
 
-        Alert::success('Berhasil','Data Tersimpan !');
+        Alert::toast('Data Tersimpan !','success');
         return redirect('/user');
     }
 

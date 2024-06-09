@@ -75,8 +75,14 @@
                                             @if (auth()->user()->level=='Admin' | auth()->user()->level=='General Manager' | auth()->user()->level=='Pelapor')     
                                             <a class="btn btn-info btn-sm mr-2" href="{{ route('laporan.show', $row->id) }}"><i class="fas fa-fw fa-circle-info"></i></a>
                                             @endif
+
+                                            @if (auth()->user()->level=='Admin' | auth()->user()->level=='Pelapor')
                                             <a class="btn btn-warning btn-sm mr-2"href="{{ route('laporan.edit', $row->id) }}"><i class="fas fa-fw fa-edit"></i></a>
+                                            @endif
+
+                                            @if (auth()->user()->level=='Admin')
                                             <a class="btn btn-danger btn-sm mr-2"href="{{ route('laporan.destroy', $row->id) }}"><i class="fas fa-trash-alt"></i></a>
+                                            @endif
                                         </div>
 
                                     </td>

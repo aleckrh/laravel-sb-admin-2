@@ -6,8 +6,9 @@ use App\Models\Foto;
 use App\Models\Laporan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
-use Illuminate\Support\Facades\Log;
 use RealRashid\SweetAlert\Facades\Alert;
+use Telegram\Bot\Laravel\Facades\Telegram;
+
 
 class LaporanController extends Controller
 {
@@ -17,6 +18,7 @@ class LaporanController extends Controller
     public function index()
     {
         $dataLaporan = Laporan::all();
+
         return view('admin.laporan.index', compact('dataLaporan'));
     }
 
@@ -70,7 +72,17 @@ class LaporanController extends Controller
                 }
             }
 
-            Alert::success('Berhasil','Laporan Terkirim!');
+            $url = action([LaporanController::class,'show'],$storeLaporan->id);
+
+            $message = "Judul Laporan = $request->judul\nLokasi = $request->lokasi \nPelapor = ".auth()->user()->name.' '.auth()->user()->last_name."\n $url";
+
+            Telegram::sendMessage([
+                'chat_id'   => -4253643491,
+                'text'      => $message
+                
+            ]);
+
+            Alert::toast('Data Tersimpan !','success');
             return redirect('laporan/');
             
 
@@ -152,7 +164,7 @@ class LaporanController extends Controller
         $dataLaporan->update();
 
 
-        Alert::success('Berhasil','Laporan Diupdate!');
+        Alert::toast('Data Diupdate !','success');
         return redirect('/laporan');
     }
 
@@ -205,6 +217,7 @@ class LaporanController extends Controller
 
         $dataLaporan->update();
         
+        Alert::toast('Laporan Disetujui !','success');
         return redirect('/laporan');
     }
 
