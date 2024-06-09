@@ -16,10 +16,6 @@ class PenggunaController extends Controller
     {
         $dataUser = User::all();
 
-        $title = 'Hapus User!';
-        $text = "Apakah Anda Yakin Ingin Menghapus?";
-        confirmDelete($title, $text);
-
         return view('admin.user.index',compact('dataUser'));
     }
 

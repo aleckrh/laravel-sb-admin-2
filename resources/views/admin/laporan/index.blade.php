@@ -68,11 +68,7 @@
                                     <td>{{ $row->status }}</td>
                                     <td class="text-right">
                                         <div class="btn-group">
-                                            @if (auth()->user()->level=='Admin'| auth()->user()->level=='Manager Teknik')
-                                            <a class="btn btn-success btn-sm mr-2" href="{{ route('laporan.check', $row->id) }}"><i class="fas fa-fw fa-circle-check"></i></a>
-                                            @endif
-
-                                            @if (auth()->user()->level=='Admin' | auth()->user()->level=='General Manager' | auth()->user()->level=='Pelapor')     
+                                            @if (auth()->user()->level=='Admin' | auth()->user()->level=='General Manager' | auth()->user()->level=='Pelapor' | auth()->user()->level=='Manager Teknik')     
                                             <a class="btn btn-info btn-sm mr-2" href="{{ route('laporan.show', $row->id) }}"><i class="fas fa-fw fa-circle-info"></i></a>
                                             @endif
 

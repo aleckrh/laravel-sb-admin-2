@@ -65,7 +65,7 @@
                                     <td class="text-right">
                                         <div class="btn-group">
                                             <a class="btn btn-sm btn-warning mr-2" href="{{ route('user.edit', $row->id) }}"><i class="fas fa-fw fa-edit"></i></a>
-                                            <a data-confirm-delete="true" class="btn btn-sm btn-danger mr-2"href="{{ route('user.destroy', $row->id) }}"><i class="fas fa-fw fa-trash-alt"></i></a>
+                                            <a class="btn btn-sm btn-danger mr-2"href="{{ route('user.destroy', $row->id) }}"><i class="fas fa-fw fa-trash-alt"></i></a>
 
 
                                             {{-- <form action="{{route('user.destroy',$row->id)}}" method="POST">

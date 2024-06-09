@@ -49,14 +49,12 @@
                 <span>{{ __('Dashboard') }}</span></a>
         </li> --}}
 
-        @if (auth()->user()->level=='Admin'| auth()->user()->level=='General Manager')
         <li class="nav-item {{ Nav::isRoute('laporan') }}">
             <a class="nav-link" href="{{ route('laporan') }}">
                 <i class="fas fa-fw fa-clipboard-list"></i>
                 <span>{{ __('Laporan') }}</span>
             </a>
         </li>
-        @endif
 
         <!-- Divider -->
         <hr class="sidebar-divider">
@@ -67,7 +65,7 @@
         </div>
 
         <!-- Nav Item - Profile -->
-        @if (auth()->user()->level=='Admin')
+        
             
         <li class="nav-item {{ Nav::isRoute('profile') }}">
             <a class="nav-link" href="{{ route('profile') }}">
@@ -76,15 +74,15 @@
             </a>
         </li>
 
-        
+        @if (auth()->user()->level=='Admin')
         <li class="nav-item {{ Nav::isRoute('user.index') }}">
             <a class="nav-link" href="{{ route('user.index') }}">
                 <i class="fas fa-fw fa-users"></i>
                 <span>{{ __('List User') }}</span>
             </a>
         </li>
-        
         @endif
+
         <!-- Nav Item - About -->
         <li class="nav-item {{ Nav::isRoute('about') }}">
             <a class="nav-link" href="{{ route('about') }}">
@@ -162,7 +160,7 @@
                     <!-- Nav Item - User Information -->
                     <li class="nav-item dropdown no-arrow">
                         <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{ Auth::user()->name }}</span>
+                            <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{ Auth::user()->name }} {{ Auth::user()->last_name }}</span>
                             <figure class="img-profile rounded-circle avatar font-weight-bold" data-initial="{{ Auth::user()->name[0] }}"></figure>
                         </a>
                         <!-- Dropdown - User Information -->

@@ -6,6 +6,7 @@ use App\Models\Foto;
 use App\Models\Laporan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Log;
 use RealRashid\SweetAlert\Facades\Alert;
 use Telegram\Bot\Laravel\Facades\Telegram;
 
@@ -73,16 +74,13 @@ class LaporanController extends Controller
             }
 
             $url = action([LaporanController::class,'show'],$storeLaporan->id);
-
             $message = "Judul Laporan = $request->judul\nLokasi = $request->lokasi \nPelapor = ".auth()->user()->name.' '.auth()->user()->last_name."\n $url";
-
             Telegram::sendMessage([
                 'chat_id'   => -4253643491,
-                'text'      => $message
-                
+                'text'      => $message  
             ]);
 
-            Alert::toast('Data Tersimpan !','success');
+            Alert::toast('Laporan Terkirim !','success');
             return redirect('laporan/');
             
 
@@ -200,14 +198,6 @@ class LaporanController extends Controller
         $fotoLaporan = $dataLaporan->foto;
         
         return view('admin.laporan.view', compact('dataLaporan','fotoLaporan'));
-    }
-
-    public function checkLaporan($id)
-    {
-        $dataLaporan = Laporan::findOrFail($id);
-        $fotoLaporan = $dataLaporan->foto;
-        
-        return view('admin.laporan.agree',compact('dataLaporan','fotoLaporan'));
     }
 
     public function setuju(Request $request ,$id)

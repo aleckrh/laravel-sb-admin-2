@@ -30,18 +30,19 @@ Route::group(['middleware' => ['auth','RoleLevel:General Manager,Admin,Manager T
     Route::get('/laporan', 'LaporanController@index')->name('laporan');
 });
 
-
-Route::group(['middleware' => ['auth','RoleLevel:Admin,Manager Teknik,Pelapor']], function(){
+Route::group(['middleware' => ['auth','RoleLevel:Admin,Pelapor']], function(){
     Route::get('/laporan/create', 'LaporanController@create')->name('laporan.create');
     Route::post('/laporan/store', 'LaporanController@store')->name('laporan.store');
     Route::put('/laporan/{id}/update', 'LaporanController@update')->name('laporan.update');
     Route::get('/laporan/{id}/edit', 'LaporanController@edit')->name('laporan.edit');
-    Route::get('/laporan/{id}/detail', 'LaporanController@show')->name('laporan.show');
     Route::get('/laporan/{id}/destroy', 'LaporanController@destroy')->name('laporan.destroy');
 });
 
-Route::group(['middleware' => ['auth','RoleLevel:Admin,Manager Teknik']], function(){
-    Route::get('/laporan/{id}/check', 'LaporanController@checkLaporan')->name('laporan.check');
+Route::group(['middleware' => ['auth','RoleLevel:Admin,Manager Teknik,General Manager,Pelapor']], function(){
+    Route::get('/laporan/{id}/detail', 'LaporanController@show')->name('laporan.show');
+});
+
+Route::group(['middleware' => ['auth','RoleLevel:Admin,Manager Teknik,General Manager']], function(){
     Route::put('/laporan/{id}/confirm', 'LaporanController@setuju')->name('laporan.agree');
 });
 
