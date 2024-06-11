@@ -67,7 +67,7 @@
                                     <label class="form-control-label" for="file">Level</label>
                                     <select class="form-control" name="level" id="level">
                                         @foreach ($listRole as $item)
-                                            <option value="{{$item->level}}">{{$item->level}}</option>
+                                            <option value="{{$item->id}}">{{$item->level}}</option>
                                         @endforeach
                                     </select>
                                 </div>

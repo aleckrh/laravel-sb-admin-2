@@ -74,7 +74,7 @@
             </a>
         </li>
 
-        @if (auth()->user()->level=='Admin')
+        @if (auth()->user()->level==1)
         <li class="nav-item {{ Nav::isRoute('user.index') }}">
             <a class="nav-link" href="{{ route('user.index') }}">
                 <i class="fas fa-fw fa-users"></i>
@@ -152,7 +152,7 @@
                     </li>
                     
                     <div class="container">
-                        <span>{{ Auth::user()->level }}</span>
+                        <span>{{ Auth::user()->divisiLevel->level }}</span>
                     </div>
 
                     <div class="topbar-divider d-none d-sm-block"></div>

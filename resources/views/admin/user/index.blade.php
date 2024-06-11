@@ -60,7 +60,7 @@
                                 <tr>
                                     <td class="col-sm-1">{{ ++$i }}</td>
                                     <td>{{ $row->name }} {{ $row->last_name }}</td>
-                                    <td>{{ $row->level }}</td>
+                                    <td>{{ $row->divisiLevel->level}}</td>
                                     <td>{{ $row->email }}</td>
                                     <td class="text-right">
                                         <div class="btn-group">

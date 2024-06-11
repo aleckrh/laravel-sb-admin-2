@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Divisi;
+use App\Models\DivisiTerkait;
 use App\Models\Foto;
 use App\Models\Laporan;
+use App\Models\Pelabuhan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Log;
@@ -28,7 +31,9 @@ class LaporanController extends Controller
      */
     public function create()
     {
-        return view('admin.laporan.create');
+        $dataPelabuhan  = Pelabuhan::all();
+        $dataDivisi     = Divisi::all();
+        return view('admin.laporan.create',compact('dataPelabuhan','dataDivisi'));
     }
 
     /**
@@ -39,26 +44,42 @@ class LaporanController extends Controller
 
         // try {
 
+            
             $request->validate([
-                'foto'      => 'required',
-                'foto.*'    => 'required|image|mimes:jpeg,jpg,png,gif,svg|max:5120',
-                'file'      => 'required'
+                'foto'          => 'nullable',
+                'foto.*'        => 'nullable|image|mimes:jpeg,jpg,png,gif,svg|max:5120',
+                'file'          => 'nullable',
+                'pelabuhan'     => 'required',
+                'divisi'        => 'nullable|array'
             ]);
 
-            $fileUpload = $request->file('file');
-            $fileName = time() . '_' . $fileUpload->getClientOriginalName();
-            $fileUpload->move(public_path('file'), $fileName);
+            $storeLaporan               = new Laporan;
+            $storeLaporan->user_id      = auth()->user()->id;
+            $storeLaporan->judul        = $request->judul;
+            $storeLaporan->deskripsi    = $request->deskripsi;
+            $storeLaporan->pelabuhan    = $request->pelabuhan;
+            $storeLaporan->lokasi       = $request->lokasi;
+            $storeLaporan->status       = $request->status;
 
-            $storeLaporan = new Laporan([
-                'user_id'       => auth()->user()->id,
-                'judul'         => $request->judul,
-                'deskripsi'     => $request->deskripsi,
-                'lokasi'        => $request->lokasi,
-                'file'          => $fileName,
-                'status'        => $request->status,
-            ]);
+
+            if($request->hasFile('file')){
+                $fileUpload = $request->file('file');
+                $fileName = time() . '_' . $fileUpload->getClientOriginalName();
+                $fileUpload->move(public_path('file'), $fileName);
+                $storeLaporan->file = $fileName;
+            }
 
             $storeLaporan->save();
+
+            $checkBoxDivisi = $request->input('divisi',[]);
+            foreach($checkBoxDivisi as $divisi){
+                $divisiTerkait = new DivisiTerkait;
+                $divisiTerkait->laporan_id  = $storeLaporan->id;
+                $divisiTerkait->nama_divisi = $divisi; 
+                $divisiTerkait->save();
+            }
+
+            // dd($request->all());
 
             if ($request->hasFile("foto")) {
                 $files = $request->file("foto");
@@ -79,6 +100,7 @@ class LaporanController extends Controller
                 'chat_id'   => -4253643491,
                 'text'      => $message  
             ]);
+
 
             Alert::toast('Laporan Terkirim !','success');
             return redirect('laporan/');

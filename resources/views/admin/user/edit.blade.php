@@ -67,7 +67,7 @@
                                     <label class="form-control-label" for="file">Level</label>
                                     <select class="form-control" name="level" id="level">
                                         @foreach ($listRole as $item)
-                                            <option value="{{$item->level}}"
+                                            <option value="{{$item->id}}"
                                                 @if ($item->level  == $dataUser->level)
                                                     selected
                                                 @endif>

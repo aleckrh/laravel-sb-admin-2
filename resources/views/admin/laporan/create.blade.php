@@ -39,7 +39,7 @@
 
                     {{-- <input type="hidden" name="_method" value="POST"> --}}
                     
-                    <input type="hidden"  name="status" value="Belum Disetujui">
+                    <input type="hidden"  name="status" value="Belum Diterima">
 
                     <div class="pl-lg-4">
                         <div class="row">
@@ -52,15 +52,38 @@
 
                             <div class="col-lg-12">
                                 <div class="form-group">
-                                    <label class="form-control-label" for="file">Deskripsi Laporan</label>
+                                    <label class="form-control-label" for="deskripsi">Deskripsi Laporan</label>
                                     <textarea type="text" id="deskripsi" class="form-control" name="deskripsi"></textarea>
                                 </div>
                             </div>
 
                             <div class="col-lg-12">
                                 <div class="form-group">
+                                    <label class="form-control-label" for="pelabuhan">Lokasi Pelabuhan</label>
+                                    <select class="form-control" name="pelabuhan" id="pelabuhan">
+                                        @foreach ($dataPelabuhan as $item)
+                                            <option value="{{$item->pelabuhan}}">{{$item->pelabuhan}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-12">
+                                <div class="form-group">
                                     <label class="form-control-label" for="lokasi">Lokasi</label>
-                                    <input type="text" id="lokasi" class="form-control" name="lokasi">
+                                    <textarea type="text" id="lokasi" class="form-control" name="lokasi"></textarea>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-12">
+                                <div class="form-group">
+                                    <label class="form-control-label" for="divisi">Divisi Terkait</label>
+                                    @foreach ($dataDivisi as $item)
+                                        <div class="form-group form-check">
+                                            <input type="checkbox" class="form-check-input" name="divisi[]" value="{{$item['id']}}" id="exampleCheck1">
+                                            <label class="form-check-label" for="exampleCheck1">{{$item['nama_divisi']}}</label>
+                                        </div>
+                                    @endforeach
                                 </div>
                             </div>
 

@@ -25,6 +25,10 @@ class User extends Authenticatable
         'password',
     ];
 
+    public function divisiLevel(){
+        return $this->belongsTo(Role::class,'id');
+    }
+
     /**
      * The attributes that should be hidden for arrays.
      *

@@ -69,7 +69,7 @@
                                 <div class="form-group text-center">
                                     <div class="container">
                                     @foreach ($fotoLaporan as $item)
-                                        <img class="image-fluid mb-4" src="{{asset('gambar/'.$item->foto)}}" alt="Responsive image">
+                                        <img class="object-fit-contain border rounded" src="{{asset('gambar/'.$item->foto)}}" alt="Responsive image">
                                         {{-- <label>{{$item->foto}}</label> --}}
                                     @endforeach
                                     </div>
@@ -99,7 +99,7 @@
         
                                 @if ($dataLaporan->status == "Belum Disetujui")
                                     <div class="col text-right">
-                                        <button type="submit" class="btn btn-primary">Setujui</a>
+                                        <button type="submit" class="btn btn-primary">Setujui Laporan</a>
                                     </div>
                                 @endif
                                 

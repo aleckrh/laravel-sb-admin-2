@@ -26,11 +26,11 @@ Auth::routes();
 // Route::get('/home', 'HomeController@index')->name('home');
 
 // Route for General Manager
-Route::group(['middleware' => ['auth','RoleLevel:General Manager,Admin,Manager Teknik,Pelapor']], function(){
+Route::group(['middleware' => ['auth','RoleLevel:1,2,3,4,5']], function(){
     Route::get('/laporan', 'LaporanController@index')->name('laporan');
 });
 
-Route::group(['middleware' => ['auth','RoleLevel:Admin,Pelapor']], function(){
+Route::group(['middleware' => ['auth','RoleLevel:1,2,5']], function(){
     Route::get('/laporan/create', 'LaporanController@create')->name('laporan.create');
     Route::post('/laporan/store', 'LaporanController@store')->name('laporan.store');
     Route::put('/laporan/{id}/update', 'LaporanController@update')->name('laporan.update');
@@ -38,15 +38,15 @@ Route::group(['middleware' => ['auth','RoleLevel:Admin,Pelapor']], function(){
     Route::get('/laporan/{id}/destroy', 'LaporanController@destroy')->name('laporan.destroy');
 });
 
-Route::group(['middleware' => ['auth','RoleLevel:Admin,Manager Teknik,General Manager,Pelapor']], function(){
+Route::group(['middleware' => ['auth','RoleLevel:1,2,3,4,5']], function(){
     Route::get('/laporan/{id}/detail', 'LaporanController@show')->name('laporan.show');
 });
 
-Route::group(['middleware' => ['auth','RoleLevel:Admin,Manager Teknik,General Manager']], function(){
+Route::group(['middleware' => ['auth','RoleLevel:1,3,4']], function(){
     Route::put('/laporan/{id}/confirm', 'LaporanController@setuju')->name('laporan.agree');
 });
 
-Route::group(['middleware' => ['auth','RoleLevel:Admin']], function(){
+Route::group(['middleware' => ['auth','RoleLevel:1']], function(){
     Route::get('/user' , 'PenggunaController@index')->name('user.index');
     Route::get('/user/create' , 'PenggunaController@create')->name('user.create');
     Route::post('/user/store' , 'PenggunaController@store')->name('user.store');

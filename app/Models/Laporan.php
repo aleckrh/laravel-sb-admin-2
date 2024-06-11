@@ -23,6 +23,10 @@ class Laporan extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function divisi(){
+        return $this->hasMany(DivisiTerkait::class);
+    }
+
     public function foto(){
         return $this->hasMany(Foto::class);
     }

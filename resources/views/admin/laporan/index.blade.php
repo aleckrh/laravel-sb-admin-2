@@ -27,7 +27,7 @@
 
     <div class="container-fluid">
 
-        @if ((auth()->user()->level == 'Pelapor') | (auth()->user()->level == 'Admin'))
+        @if ((auth()->user()->level == 1 | 2 | 5))
             <div class="pl-lg-4 mb-3">
                 <div class="row">
                     <div class="col text-right">
@@ -68,15 +68,15 @@
                                     <td>{{ $row->status }}</td>
                                     <td class="text-right">
                                         <div class="btn-group">
-                                            @if (auth()->user()->level=='Admin' | auth()->user()->level=='General Manager' | auth()->user()->level=='Pelapor' | auth()->user()->level=='Manager Teknik')     
+                                            @if (auth()->user()->level == 1|2|3|4|5)     
                                             <a class="btn btn-info btn-sm mr-2" href="{{ route('laporan.show', $row->id) }}"><i class="fas fa-fw fa-circle-info"></i></a>
                                             @endif
 
-                                            @if (auth()->user()->level=='Admin' | auth()->user()->level=='Pelapor')
+                                            @if (auth()->user()->level== 1|2|5)
                                             <a class="btn btn-warning btn-sm mr-2"href="{{ route('laporan.edit', $row->id) }}"><i class="fas fa-fw fa-edit"></i></a>
                                             @endif
 
-                                            @if (auth()->user()->level=='Admin')
+                                            @if (auth()->user()->level== 1|2)
                                             <a class="btn btn-danger btn-sm mr-2"href="{{ route('laporan.destroy', $row->id) }}"><i class="fas fa-trash-alt"></i></a>
                                             @endif
                                         </div>

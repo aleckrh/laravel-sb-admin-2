@@ -14,6 +14,7 @@ class RoleTableSeeder extends Seeder
     public function run(): void
     {
         DB::table('roles')->insert(['level'    =>  'Admin']);
+        DB::table('roles')->insert(['level'    =>  'Administrator']);
         DB::table('roles')->insert(['level'    =>  'General Manager']);
         DB::table('roles')->insert(['level'    =>  'Manager Teknik']);
         DB::table('roles')->insert(['level'    =>  'Pelapor']);
