@@ -23,8 +23,8 @@ class Laporan extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function divisi(){
-        return $this->hasMany(DivisiTerkait::class);
+    public function divisiTerkait(){
+        return $this->hasMany(DivisiTerkait::class,'laporan_id');
     }
 
     public function foto(){

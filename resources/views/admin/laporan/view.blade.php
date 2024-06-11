@@ -38,7 +38,7 @@
                     @method('PUT')
                     @csrf
 
-                    <input type="hidden" name="status" value="Sudah Disetujui">
+                    <input type="hidden" name="status" value={{2}}>
 
                     <div class="pl-lg-4">
                         <div class="row">
@@ -69,7 +69,7 @@
                                 <div class="form-group text-center">
                                     <div class="container">
                                     @foreach ($fotoLaporan as $item)
-                                        <img class="object-fit-contain border rounded" src="{{asset('gambar/'.$item->foto)}}" alt="Responsive image">
+                                        <img class="object-fit-contain border rounded mb-4" src="{{asset('gambar/'.$item->foto)}}" alt="Responsive image">
                                         {{-- <label>{{$item->foto}}</label> --}}
                                     @endforeach
                                     </div>
@@ -95,17 +95,17 @@
                             <div class="col text-left">
                                 <a href="{{route('laporan')}}" class="btn btn-light">Kembali</a>
                             </div>
-                            @if (auth()->user()->level=='Admin'|auth()->user()->level=='Manager Teknik')
+                            @if (auth()->user()->level == 1 | 4)
         
-                                @if ($dataLaporan->status == "Belum Disetujui")
+                                @if ($dataLaporan->status == 1)
                                     <div class="col text-right">
                                         <button type="submit" class="btn btn-primary">Setujui Laporan</a>
                                     </div>
                                 @endif
                                 
-                                @if ($dataLaporan->status == "Sudah Disetujui")
+                                @if ($dataLaporan->status == 2)
                                     <div class="col text-right">
-                                        <button type="submit" class="btn btn-primary" disabled>Sudah Disetujui</a>
+                                        <button type="submit" class="btn btn-primary" disabled>Sudah Diterima</a>
                                     </div>
                                 @endif
 

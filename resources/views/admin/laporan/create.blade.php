@@ -39,7 +39,7 @@
 
                     {{-- <input type="hidden" name="_method" value="POST"> --}}
                     
-                    <input type="hidden"  name="status" value="Belum Diterima">
+                    <input type="hidden" name="status" value={{1}}>
 
                     <div class="pl-lg-4">
                         <div class="row">
@@ -61,8 +61,13 @@
                                 <div class="form-group">
                                     <label class="form-control-label" for="pelabuhan">Lokasi Pelabuhan</label>
                                     <select class="form-control" name="pelabuhan" id="pelabuhan">
+                                        <option value="">-Pilih Lokasi Pelabuhan-</option>
                                         @foreach ($dataPelabuhan as $item)
-                                            <option value="{{$item->pelabuhan}}">{{$item->pelabuhan}}</option>
+                                            <option value="{{$item->pelabuhan}}">
+                                                <b>
+                                                {{$item->pelabuhan}}
+                                                </b>
+                                            </option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -80,7 +85,7 @@
                                     <label class="form-control-label" for="divisi">Divisi Terkait</label>
                                     @foreach ($dataDivisi as $item)
                                         <div class="form-group form-check">
-                                            <input type="checkbox" class="form-check-input" name="divisi[]" value="{{$item['id']}}" id="exampleCheck1">
+                                            <input type="checkbox" class="form-check-input" name="divisi[]" value="{{$item['nama_divisi']}}" id="divisi[]">
                                             <label class="form-check-label" for="exampleCheck1">{{$item['nama_divisi']}}</label>
                                         </div>
                                     @endforeach
@@ -89,12 +94,12 @@
 
                             <div class="col-lg-12">
                                 <div class="form-group">
-                                    <label class="form-control-label" for="foto">Bukti Foto</label>
+                                    <label class="form-control-label" for="foto">Bukti Foto laporan</label>
                                     <input type="file" id="foto" class="form-control" name="foto[]" multiple>
                                 </div>
                             </div>
 
-                            <div class="col-lg-12">
+                            <div class="col-lg-12 mb-4">
                                 <div class="form-group">
                                     <label class="form-control-label" for="file">File</label>
                                     <input type="file" id="file" class="form-control" name="file">
@@ -107,6 +112,11 @@
                     <!-- Button -->
                     <div class="pl-lg-4">
                         <div class="row">
+
+                            <div class="col text-left">
+                                <a href="{{route('laporan')}}" class="btn btn-light">Kembali</a>
+                            </div>
+
                             <div class="col text-right">
                                 <button type="submit" class="btn btn-primary">Kirim Laporan</button>
                             </div>

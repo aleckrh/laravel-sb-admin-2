@@ -7,6 +7,7 @@ use App\Models\DivisiTerkait;
 use App\Models\Foto;
 use App\Models\Laporan;
 use App\Models\Pelabuhan;
+use App\Rules\CheckboxRule;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Log;
@@ -46,12 +47,26 @@ class LaporanController extends Controller
 
             
             $request->validate([
+                'judul'         => 'required',
+                'deskripsi'     => 'required',
+                'lokasi'        => 'required',
+                'divisi'        => 'required|array|min:1',
+                'divisi.*'      => 'string',
                 'foto'          => 'nullable',
                 'foto.*'        => 'nullable|image|mimes:jpeg,jpg,png,gif,svg|max:5120',
                 'file'          => 'nullable',
                 'pelabuhan'     => 'required',
                 'divisi'        => 'nullable|array'
-            ]);
+            ],[
+                'judul.required'        => 'Field judul harus diisi',
+                'deskripsi.required'    => 'Field deskripsi harus diisi',
+                'lokasi.required'       => 'Field lokasi harus diisi',
+                'pelabuhan.required'    => 'Pilih salah satu Pelabuhan',
+                'divisi.required'       => 'Pilih divisi yang dituju',
+                'divisi.array'          => 'Pilih divisi yang dituju',
+                'divisi.min'            => 'Pilih divisi yang dituju',
+                ]
+            );
 
             $storeLaporan               = new Laporan;
             $storeLaporan->user_id      = auth()->user()->id;
@@ -93,17 +108,20 @@ class LaporanController extends Controller
                     $uploadFoto->save();
                 }
             }
-
-            $url = action([LaporanController::class,'show'],$storeLaporan->id);
-            $message = "Judul Laporan = $request->judul\nLokasi = $request->lokasi \nPelapor = ".auth()->user()->name.' '.auth()->user()->last_name."\n $url";
-            Telegram::sendMessage([
-                'chat_id'   => -4253643491,
-                'text'      => $message  
-            ]);
+                
+            // $url = action([LaporanController::class,'show'],$storeLaporan->id);
+            // $message = "Judul Laporan = $request->judul\nLokasi = $request->lokasi \nPelapor = ".auth()->user()->name.' '.auth()->user()->last_name."\n $url";
+            // Telegram::sendMessage([
+            //     'chat_id'   => -4253643491,
+            //     'text'      => $message  
+            // ]);
 
 
             Alert::toast('Laporan Terkirim !','success');
             return redirect('laporan/');
+
+
+            
             
 
         // } catch (\Throwable $th) {

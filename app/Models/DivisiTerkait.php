@@ -16,4 +16,8 @@ class DivisiTerkait extends Model
     public function laporan(){
         return $this->belongsTo(Laporan::class);
     }
+    public function divisi(){
+        return $this->belongsTo(Divisi::class);
+    }
+
 }

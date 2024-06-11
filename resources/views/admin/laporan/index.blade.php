@@ -54,6 +54,7 @@
                                 <th>Judul</th>
                                 <th>Lokasi</th>
                                 <th>Pelapor</th>
+                                <th>Divisi Terkait</th>
                                 <th>Status</th>
                                 <th>Action</th>
                             </tr>
@@ -65,7 +66,25 @@
                                     <td>{{ $row->judul }}</td>
                                     <td>{{ $row->lokasi }}</td>
                                     <td>{{ $row->user->name }} {{ $row->user->last_name }}</td>
-                                    <td>{{ $row->status }}</td>
+                                    <td>
+                                        @foreach ( $row->divisiTerkait as $divisi)
+                                            {{$divisi->nama_divisi." "}}
+                                        @endforeach
+                                    </td>
+
+                                    <td>
+                                        @if ($row->status == 1)
+                                            Belum Diterima
+                                        @endif
+
+                                        @if ($row->status == 2)
+                                            Sudah Diterima
+                                        @endif
+
+                                        @if ($row->status == 3)
+                                            Sudah Dikerjakan
+                                        @endif
+                                    </td>
                                     <td class="text-right">
                                         <div class="btn-group">
                                             @if (auth()->user()->level == 1|2|3|4|5)     
