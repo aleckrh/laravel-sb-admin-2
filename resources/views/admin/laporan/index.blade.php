@@ -67,11 +67,14 @@
                                     <td>{{ $row->lokasi }}</td>
                                     <td>{{ $row->user->name }} {{ $row->user->last_name }}</td>
                                     <td>
-                                        @foreach ( $row->divisiTerkait as $divisi)
-                                            {{$divisi->nama_divisi." "}}
+                                        @foreach( $row->divisiTerkait as $divisi)
+                                                
+                                            {{ $divisi->nama_divisi }}
+                                            @if (!$loop->last)
+                                                ,
+                                            @endif
                                         @endforeach
                                     </td>
-
                                     <td>
                                         @if ($row->status == 1)
                                             Belum Diterima
@@ -89,6 +92,10 @@
                                         <div class="btn-group">
                                             @if (auth()->user()->level == 1|2|3|4|5)     
                                             <a class="btn btn-info btn-sm mr-2" href="{{ route('laporan.show', $row->id) }}"><i class="fas fa-fw fa-circle-info"></i></a>
+                                            @endif
+
+                                            @if (auth()->user()->level == 1|2)
+                                            <a class="btn btn-success btn-sm mr-2" href="{{ route('laporan.group', $row->id) }}"><i class="fas fa-fw fa-people-group"></i></a>
                                             @endif
 
                                             @if (auth()->user()->level== 1|2|5)

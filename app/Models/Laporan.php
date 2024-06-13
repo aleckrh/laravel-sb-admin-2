@@ -24,7 +24,7 @@ class Laporan extends Model
     }
 
     public function divisiTerkait(){
-        return $this->hasMany(DivisiTerkait::class,'laporan_id');
+        return $this->hasMany(DivisiTerkait::class);
     }
 
     public function foto(){

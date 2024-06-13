@@ -38,6 +38,11 @@ Route::group(['middleware' => ['auth','RoleLevel:1,2,5']], function(){
     Route::get('/laporan/{id}/destroy', 'LaporanController@destroy')->name('laporan.destroy');
 });
 
+Route::group(['middleware' => ['auth','RoleLevel:1,2']], function(){
+    Route::get('/laporan/{id}/group', 'LaporanController@group')->name('laporan.group');
+    Route::put('/laporan/{id}/groupping', 'LaporanController@groupping')->name('laporan.groupping');
+});
+
 Route::group(['middleware' => ['auth','RoleLevel:1,2,3,4,5']], function(){
     Route::get('/laporan/{id}/detail', 'LaporanController@show')->name('laporan.show');
 });

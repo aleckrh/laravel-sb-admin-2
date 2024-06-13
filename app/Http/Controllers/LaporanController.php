@@ -138,7 +138,9 @@ class LaporanController extends Controller
      */
     public function edit(string $id)
     {
-        $dataLaporan = Laporan::find($id);
+        $dataPelabuhan  = Pelabuhan::all();
+        $dataDivisi     = Divisi::all();
+        $dataLaporan    = Laporan::find($id);
         return view('admin.laporan.edit', compact('dataLaporan'));
     }
 
@@ -248,6 +250,36 @@ class LaporanController extends Controller
         $dataLaporan->update();
         
         Alert::toast('Laporan Disetujui !','success');
+        return redirect('/laporan');
+    }
+
+    public function group($id){
+
+
+        $dataPelabuhan = Pelabuhan::all();
+        $dataDivisi = Divisi::all();
+        $dataLaporan = Laporan::find($id);
+        // $divisiTerkait = DivisiTerkait::all();
+        $divisiTerkait = $dataLaporan->divisiTerkait->pluck('nama_divisi')->all();
+
+        return view('admin.laporan.group',compact('dataPelabuhan','dataDivisi','dataLaporan','divisiTerkait'));
+    }
+
+    public function groupping(Request $request, $id){
+
+        $dataLaporan = Laporan::findOrFail($id);
+        $dataLaporan->save();
+        DivisiTerkait::query()->where('laporan_id',$id)->delete();
+
+        $checkBoxDivisi = $request->input('divisi',[]);
+        foreach($checkBoxDivisi as $divisi){
+            $divisiTerkait = new DivisiTerkait;
+            $divisiTerkait->laporan_id  = $dataLaporan->id;
+            $divisiTerkait->nama_divisi = $divisi; 
+            $divisiTerkait->save();
+        }
+
+        
         return redirect('/laporan');
     }
 
