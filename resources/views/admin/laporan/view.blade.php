@@ -70,7 +70,6 @@
                                     <div class="container">
                                     @foreach ($fotoLaporan as $item)
                                         <img class="object-fit-contain border rounded mb-4" src="{{asset('gambar/'.$item->foto)}}" alt="Responsive image">
-                                        {{-- <label>{{$item->foto}}</label> --}}
                                     @endforeach
                                     </div>
                                 </div>
@@ -79,7 +78,6 @@
                             <div class="col-lg-12">
                                 <div class="form-group">
                                     <label class="form-control-label" for="file">{{$dataLaporan->file}}</label>
-                                    {{-- <a href="{{route('download', $dataLaporan->file) }}">{{$dataLaporan->file}}</a> --}}
                                 </div>
                             </div>
 

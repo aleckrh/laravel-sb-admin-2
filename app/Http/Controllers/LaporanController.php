@@ -7,7 +7,6 @@ use App\Models\DivisiTerkait;
 use App\Models\Foto;
 use App\Models\Laporan;
 use App\Models\Pelabuhan;
-use App\Rules\CheckboxRule;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Log;
@@ -17,35 +16,37 @@ use Telegram\Bot\Laravel\Facades\Telegram;
 
 class LaporanController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+
     public function index()
     {
-        $dataLaporan = Laporan::all();
-
-        return view('admin.laporan.index', compact('dataLaporan'));
+        try {
+            $dataLaporan = Laporan::all();
+            return view('admin.laporan.index', compact('dataLaporan'));
+        } catch (\Throwable $th) {
+            Log::error($th);
+            $th->getMessage();
+            return view('admin.error.view');
+        }
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
+
     public function create()
     {
-        $dataPelabuhan  = Pelabuhan::all();
-        $dataDivisi     = Divisi::all();
-        return view('admin.laporan.create',compact('dataPelabuhan','dataDivisi'));
+        try {
+            $dataPelabuhan  = Pelabuhan::all();
+            $dataDivisi     = Divisi::all();
+            return view('admin.laporan.create',compact('dataPelabuhan','dataDivisi'));
+        } catch (\Throwable $th) {
+            Log::error($th);
+            $th->getMessage();
+            return view('admin.error.view');
+        }
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
+
     public function store(Request $request)
     {
-
-        // try {
-
-            
+        try{        
             $request->validate([
                 'judul'         => 'required',
                 'deskripsi'     => 'required',
@@ -94,8 +95,6 @@ class LaporanController extends Controller
                 $divisiTerkait->save();
             }
 
-            // dd($request->all());
-
             if ($request->hasFile("foto")) {
                 $files = $request->file("foto");
                 foreach ($files as $file) {
@@ -108,126 +107,131 @@ class LaporanController extends Controller
                     $uploadFoto->save();
                 }
             }
-                
-            // $url = action([LaporanController::class,'show'],$storeLaporan->id);
-            // $message = "Judul Laporan = $request->judul\nLokasi = $request->lokasi \nPelapor = ".auth()->user()->name.' '.auth()->user()->last_name."\n $url";
-            // Telegram::sendMessage([
-            //     'chat_id'   => -4253643491,
-            //     'text'      => $message  
-            // ]);
 
+            try {
+                $groupChat = -4243954575;
+                $url = action([LaporanController::class,'show'],$storeLaporan->id);
+                $message = "Judul Laporan = $request->judul\nLokasi = $request->lokasi \nPelapor = ".auth()->user()->name.' '.auth()->user()->last_name."\n$url";
+                Telegram::sendMessage([
+                    'chat_id'   =>  $groupChat,
+                    'text'      => $message
+                ]);
 
-            Alert::toast('Laporan Terkirim !','success');
-            return redirect('laporan/');
+                Alert::toast('Laporan Terkirim !','success');
+                return redirect('laporan/');
 
+            } catch (\Throwable $th) {
+                Log::error($th);
+                $th->getMessage();
+                Alert::toast('Tidak dapat mengirim Telegram, Periksa koneksi internet','warning');
+                return redirect('laporan/');
+            }
 
-            
-            
-
-        // } catch (\Throwable $th) {
-        //     Log::error($th);
-        //     $th->getMessage();
-        //     return view('admin.error.view', compact('th'));
-        // }
+        } catch (\Throwable $th) {
+            Log::error($th);
+            $th->getMessage();
+            return view('admin.error.view');
+        }
     }
 
-    
 
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(string $id)
     {
-        $dataPelabuhan  = Pelabuhan::all();
-        $dataDivisi     = Divisi::all();
-        $dataLaporan    = Laporan::find($id);
-        return view('admin.laporan.edit', compact('dataLaporan'));
+        try {
+            $dataPelabuhan  = Pelabuhan::all();
+            $dataDivisi     = Divisi::all();
+            $dataLaporan    = Laporan::find($id);
+            return view('admin.laporan.edit', compact('dataLaporan'));    
+        } catch (\Throwable $th) {
+            Log::error($th);
+            $th->getMessage();
+            return view('admin.error.view');
+        }   
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
+
     public function update(Request $request, string $id)
     {
-        $request->validate([
-            'foto'      => 'required',
-            'foto.*'    => 'required|image|mimes:jpeg,jpg,png,gif,svg|max:5120',
-            'file'      => 'required'
-        ]);
-
-
-
-        $dataLaporan = Laporan::findOrFail($id);
-
-
-        if (File::exists('file/' . $dataLaporan->file)) {
-            File::delete('file/' . $dataLaporan->file);
-
-            // $request->file('file')->move(public_path('file'), time() . '_' .$request->file('file')->getClientOriginalName()); 
-            // $dataLaporan->file          = time() . '_' .$request->file('file')->getClientOriginalName();
-
-            $fileUpload = $request->file('file');
-            $fileName = time() . '_' . $fileUpload->getClientOriginalName();
-            $fileUpload->move(public_path('file'), $fileName);
-
-            $dataLaporan->file          = $fileName;
-            $dataLaporan->user_id       = $dataLaporan->user_id;
-            $dataLaporan->judul         = $request->judul;
-            $dataLaporan->lokasi        = $request->lokasi;
-            $dataLaporan->deskripsi     = $request->deskripsi;
-        }
-
-        foreach ($dataLaporan->foto as $foto) {
-            if (File::exists('gambar/' . $foto->foto)) {
-                File::delete('gambar/' . $foto->foto);
+        try {
+            $request->validate([
+                'foto'      => 'required',
+                'foto.*'    => 'required|image|mimes:jpeg,jpg,png,gif,svg|max:5120',
+                'file'      => 'required'
+            ]);
+    
+            $dataLaporan = Laporan::findOrFail($id);
+    
+            if (File::exists('file/' . $dataLaporan->file)) {
+                File::delete('file/' . $dataLaporan->file);
+    
+                $fileUpload = $request->file('file');
+                $fileName = time() . '_' . $fileUpload->getClientOriginalName();
+                $fileUpload->move(public_path('file'), $fileName);
+    
+                $dataLaporan->file          = $fileName;
+                $dataLaporan->user_id       = $dataLaporan->user_id;
+                $dataLaporan->judul         = $request->judul;
+                $dataLaporan->lokasi        = $request->lokasi;
+                $dataLaporan->deskripsi     = $request->deskripsi;
             }
-            $foto->delete();
-        }
-
-        if ($request->hasFile("foto")) {
-            $files = $request->file("foto");
-            foreach ($files as $file) {
-                $imageName      = time() . '_' . $file->getClientOriginalName();
-                $uploadFoto     = new Foto([
-                    'laporan_id'    => $dataLaporan->id,
-                    'foto'          => $imageName
-                ]);
-                $file->move(public_path('gambar'), $imageName);
-                $uploadFoto->save();
+    
+            foreach ($dataLaporan->foto as $foto) {
+                if (File::exists('gambar/' . $foto->foto)) {
+                    File::delete('gambar/' . $foto->foto);
+                }
+                $foto->delete();
             }
+    
+            if ($request->hasFile("foto")) {
+                $files = $request->file("foto");
+                foreach ($files as $file) {
+                    $imageName      = time() . '_' . $file->getClientOriginalName();
+                    $uploadFoto     = new Foto([
+                        'laporan_id'    => $dataLaporan->id,
+                        'foto'          => $imageName
+                    ]);
+                    $file->move(public_path('gambar'), $imageName);
+                    $uploadFoto->save();
+                }
+            }
+    
+            $dataLaporan->update();
+            Alert::toast('Data Diupdate !','success');
+            return redirect('/laporan');
+
+        } catch (\Throwable $th) {
+            Log::error($th);
+            $th->getMessage();
+            return view('admin.error.view');
         }
-
-        // dd($dataLaporan->foto);
-
-
-
-        $dataLaporan->update();
-
-
-        Alert::toast('Data Diupdate !','success');
-        return redirect('/laporan');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
+
     public function destroy($id)
     {
-        $dataLaporan = Laporan::findOrFail($id);
-        if (File::exists("file/" . $dataLaporan->file)) {
-            File::delete("file/" . $dataLaporan->file);
-        }
+        try {
+            $dataLaporan = Laporan::findOrFail($id);
 
-
-        foreach ($dataLaporan->foto as $foto) {
-            if (File::exists('gambar/' . $foto->foto)) {
-                File::delete('gambar/' . $foto->foto);
+            if (File::exists("file/" . $dataLaporan->file)) {
+                File::delete("file/" . $dataLaporan->file);
             }
-        }
 
-        $dataLaporan->delete();
-        return redirect('/laporan');
+            foreach ($dataLaporan->foto as $foto) {
+                if (File::exists('gambar/' . $foto->foto)) {
+                    File::delete('gambar/' . $foto->foto);
+                }
+            }
+
+            $dataLaporan->delete();
+            return redirect('/laporan');
+
+        } catch (\Throwable $th) {
+            Log::error($th);
+            $th->getMessage();
+            return view('admin.error.view');
+        }
     }
+
 
     public function error()
     {
@@ -235,52 +239,71 @@ class LaporanController extends Controller
     }
 
     public function show($id)
-    {
-        $dataLaporan = Laporan::findOrFail($id);
-        $fotoLaporan = $dataLaporan->foto;
-        
-        return view('admin.laporan.view', compact('dataLaporan','fotoLaporan'));
+    {   
+        try {
+            $dataLaporan = Laporan::findOrFail($id);
+            $fotoLaporan = $dataLaporan->foto;
+            return view('admin.laporan.view', compact('dataLaporan','fotoLaporan'));    
+        } catch (\Throwable $th) {
+            Log::error($th);
+            $th->getMessage();
+            return view('admin.error.view');
+        }
     }
+
 
     public function setuju(Request $request ,$id)
+    {   
+        try {
+            $dataLaporan = Laporan::findOrFail($id);
+            $dataLaporan->status = $request->status;
+            $dataLaporan->update();
+            
+            Alert::toast('Laporan Disetujui !','success');
+            return redirect('/laporan');
+        } catch (\Throwable $th) {
+            Log::error($th);
+            $th->getMessage();
+            return view('admin.error.view');
+        }
+    }
+
+
+    public function group($id)
     {
-        $dataLaporan = Laporan::findOrFail($id);
-        $dataLaporan->status = $request->status;
+        try {
+            $dataPelabuhan = Pelabuhan::all();
+            $dataDivisi = Divisi::all();
+            $dataLaporan = Laporan::find($id);
+            $divisiTerkait = $dataLaporan->divisiTerkait->pluck('nama_divisi')->all();
 
-        $dataLaporan->update();
-        
-        Alert::toast('Laporan Disetujui !','success');
-        return redirect('/laporan');
+            return view('admin.laporan.group',compact('dataPelabuhan','dataDivisi','dataLaporan','divisiTerkait'));
+        } catch (\Throwable $th) {
+            Log::error($th);
+            $th->getMessage();
+            return view('admin.error.view');
+        }
     }
 
-    public function group($id){
-
-
-        $dataPelabuhan = Pelabuhan::all();
-        $dataDivisi = Divisi::all();
-        $dataLaporan = Laporan::find($id);
-        // $divisiTerkait = DivisiTerkait::all();
-        $divisiTerkait = $dataLaporan->divisiTerkait->pluck('nama_divisi')->all();
-
-        return view('admin.laporan.group',compact('dataPelabuhan','dataDivisi','dataLaporan','divisiTerkait'));
-    }
 
     public function groupping(Request $request, $id){
+        try {
+            $dataLaporan = Laporan::findOrFail($id);
+            $dataLaporan->save();
+            DivisiTerkait::query()->where('laporan_id',$id)->delete();
 
-        $dataLaporan = Laporan::findOrFail($id);
-        $dataLaporan->save();
-        DivisiTerkait::query()->where('laporan_id',$id)->delete();
-
-        $checkBoxDivisi = $request->input('divisi',[]);
-        foreach($checkBoxDivisi as $divisi){
-            $divisiTerkait = new DivisiTerkait;
-            $divisiTerkait->laporan_id  = $dataLaporan->id;
-            $divisiTerkait->nama_divisi = $divisi; 
-            $divisiTerkait->save();
+            $checkBoxDivisi = $request->input('divisi',[]);
+            foreach($checkBoxDivisi as $divisi){
+                $divisiTerkait = new DivisiTerkait;
+                $divisiTerkait->laporan_id  = $dataLaporan->id;
+                $divisiTerkait->nama_divisi = $divisi; 
+                $divisiTerkait->save();
+            }
+            return redirect('/laporan');
+        } catch (\Throwable $th) {
+            Log::error($th);
+            $th->getMessage();
+            return view('admin.error.view');
         }
-
-        
-        return redirect('/laporan');
     }
-
 }
