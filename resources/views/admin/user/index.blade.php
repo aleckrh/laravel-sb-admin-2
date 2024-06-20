@@ -57,7 +57,7 @@
                         </thead>
                         <tbody>
                             @foreach ($dataUser as $i => $row)
-                                <tr>
+                                <tr id="tr_{{$row['id']}}">
                                     <td class="col-sm-1">{{ ++$i }}</td>
                                     <td>{{ $row->name }} {{ $row->last_name }}</td>
                                     <td>{{ $row->divisiLevel->level}}</td>
@@ -65,14 +65,7 @@
                                     <td class="text-right">
                                         <div class="btn-group">
                                             <a class="btn btn-sm btn-warning mr-2" href="{{ route('user.edit', $row->id) }}"><i class="fas fa-fw fa-edit"></i></a>
-                                            <a class="btn btn-sm btn-danger mr-2"href="{{ route('user.destroy', $row->id) }}"><i class="fas fa-fw fa-trash-alt"></i></a>
-
-
-                                            {{-- <form action="{{route('user.destroy',$row->id)}}" method="POST">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button class="btn btn-sm btn-danger mr-2" type="submit"><i class="fas fa-fw fa-trash-alt"></i></button>
-                                            </form> --}}
+                                            <a class="btn btn-sm btn-danger mr-2 deleteUser" data-id="{{ $row->id }}"><i class="fas fa-fw fa-trash-alt"></i></a>
                                         </div>
                                     </td>
                                 </tr>
@@ -84,6 +77,50 @@
         </div>
 
     </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.js" integrity="sha512-+k1pnlgt4F1H8L7t3z95o3/KO+o78INEcXTbnoJQ/F2VqDVhWoaiVml/OEHv9HsVgxUaVW+IbiZPUJQfF/YxZw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+    <script>
+        $(document).ready(function() {
+            $('.deleteUser').on('click', function(e) {
+                e.preventDefault();
+                var itemId = $(this).data('id');
+                Swal.fire({
+                    title: 'Yakin Ingin Menghapus User?',
+                    text: "Tindakan tidak bisa dikembalikan",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Iya, Hapus!',
+                    cancelButtonText: 'Batal'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $.ajax({
+                            url: '/user/' + itemId + '/destroy',
+                            type: 'GET',
+                            success: function(response) {
+                                Swal.fire(
+                                    'Deleted!',
+                                    'Your item has been deleted.',
+                                    'success'
+                                );
+                                $('#tr_'+ itemId).hide()
+                            },
+                            error: function(xhr) {
+                                Swal.fire(
+                                    'Error!',
+                                    'There was an error deleting this item.',
+                                    'error'
+                                );
+                            }
+                        });
+                    }
+                });
+            });
+        });
+    </script>
 
 
 

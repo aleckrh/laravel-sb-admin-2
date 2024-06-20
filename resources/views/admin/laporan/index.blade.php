@@ -61,7 +61,7 @@
                         </thead>
                         <tbody>
                             @foreach ($dataLaporan as $i => $row)
-                                <tr>
+                                <tr id="tr_{{$row['id']}}">
                                     <td class="col-sm-1">{{ ++$i }}</td>
                                     <td>{{ $row->id }}</td>
                                     <td>{{ $row->judul }}</td>
@@ -103,7 +103,7 @@
                                             @endif
 
                                             @if (auth()->user()->level== 1|2)
-                                            <a class="btn btn-danger btn-sm mr-2"href="{{ route('laporan.destroy', $row->id) }}"><i class="fas fa-trash-alt"></i></a>
+                                            <a class="btn btn-danger btn-sm mr-2 deleteLaporan" data-id="{{ $row->id }}"><i class="fas fa-trash-alt"></i></a>
                                             @endif
                                         </div>
 
@@ -119,8 +119,48 @@
 
     </div>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.js" integrity="sha512-+k1pnlgt4F1H8L7t3z95o3/KO+o78INEcXTbnoJQ/F2VqDVhWoaiVml/OEHv9HsVgxUaVW+IbiZPUJQfF/YxZw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
 <script>
-    
+    $(document).ready(function() {
+        $('.deleteLaporan').on('click', function(e) {
+            e.preventDefault();
+            var itemId = $(this).data('id');
+            Swal.fire({
+                title: 'Yakin Ingin Menghapus Laporan?',
+                text: "Tindakan tidak bisa dikembalikan",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Iya, Hapus!',
+                cancelButtonText: 'Batal'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url: '/laporan/' + itemId + '/destroy',
+                        type: 'GET',
+                        success: function(response) {
+                            Swal.fire(
+                                'Deleted!',
+                                'Your item has been deleted.',
+                                'success'
+                            );
+                            $('#tr_'+ itemId).hide()
+                        },
+                        error: function(xhr) {
+                            Swal.fire(
+                                'Error!',
+                                'There was an error deleting this item.',
+                                'error'
+                            );
+                        }
+                    });
+                }
+            });
+        });
+    });
 </script>
 
 @endsection
