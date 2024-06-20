@@ -102,16 +102,16 @@
                             type: 'GET',
                             success: function(response) {
                                 Swal.fire(
-                                    'Deleted!',
-                                    'Your item has been deleted.',
+                                    'Berhasil Hapus!',
+                                    'Data Berhasil Dihapus.',
                                     'success'
                                 );
                                 $('#tr_'+ itemId).hide()
                             },
                             error: function(xhr) {
                                 Swal.fire(
-                                    'Error!',
-                                    'There was an error deleting this item.',
+                                    'Gagal!',
+                                    'Terjadi Kesalahan Ketika Menghapus Data .',
                                     'error'
                                 );
                             }
