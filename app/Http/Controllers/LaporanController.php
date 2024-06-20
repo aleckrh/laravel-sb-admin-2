@@ -116,7 +116,7 @@ class LaporanController extends Controller
             try {
                 $groupChat = -4243954575;
                 $url = action([LaporanController::class,'show'],$storeLaporan->id);
-                $message = "Judul Laporan = $request->judul\nLokasi = $request->lokasi \nPelapor = ".auth()->user()->name.' '.auth()->user()->last_name."\n$url";
+                $message = "Laporan No $storeLaporan->id dibuat\n \nJudul Laporan = $request->judul \nLokasi = $request->lokasi \nPelabuhan = $request->pelabuhan \nPelapor = ".auth()->user()->name.' '.auth()->user()->last_name."\n$url";
                 Telegram::sendMessage([
                     'chat_id'   =>  $groupChat,
                     'text'      => $message
@@ -263,9 +263,26 @@ class LaporanController extends Controller
             $dataLaporan = Laporan::findOrFail($id);
             $dataLaporan->status = $request->status;
             $dataLaporan->update();
+
+            try {
+                $groupChat = -4243954575;
+                $url = action([LaporanController::class,'show'],$dataLaporan->id);
+                $message = "Laporan No $dataLaporan->id diterima\n \nJudul Laporan = $dataLaporan->judul \nLokasi = $dataLaporan->lokasi \nPelabuhan = $dataLaporan->pelabuhan \nPelapor = ".auth()->user()->name.' '.auth()->user()->last_name."\n$url";
+                Telegram::sendMessage([
+                    'chat_id'   =>  $groupChat,
+                    'text'      => $message
+                ]);
+
+                Alert::toast('Laporan Disetujui !','success');
+                return redirect('/laporan');
+            } catch (\Throwable $th) {
+                Log::error($th);
+                $th->getMessage();
+                Alert::toast('Tidak dapat mengirim Telegram, Periksa koneksi internet','warning');
+                return redirect('laporan/');
+            }
             
-            Alert::toast('Laporan Disetujui !','success');
-            return redirect('/laporan');
+
         } catch (\Throwable $th) {
             Log::error($th);
             $th->getMessage();

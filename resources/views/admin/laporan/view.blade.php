@@ -69,7 +69,7 @@
                                 <div class="form-group text-center">
                                     <div class="container">
                                     @foreach ($fotoLaporan as $item)
-                                        <img class="object-fit-contain border rounded mb-4" src="{{asset('gambar/'.$item->foto)}}" alt="Responsive image">
+                                        <img class="object-fit-contain border rounded mb-4" src="{{asset('gambar/'.$item->foto)}}" alt="Responsive image" style="width: 90%">
                                     @endforeach
                                     </div>
                                 </div>

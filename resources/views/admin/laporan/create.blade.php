@@ -61,7 +61,6 @@
                                 <div class="form-group">
                                     <label class="form-control-label" for="pelabuhan">Lokasi Pelabuhan</label>
                                     <select class="form-control" name="pelabuhan" id="pelabuhan">
-                                        <option value="">-Pilih Lokasi Pelabuhan-</option>
                                         @foreach ($dataPelabuhan as $item)
                                             <option value="{{$item->pelabuhan}}">
                                                 <b>
