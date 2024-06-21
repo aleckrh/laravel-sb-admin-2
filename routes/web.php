@@ -47,7 +47,7 @@ Route::group(['middleware' => ['auth','RoleLevel:1,2,3,4,5']], function(){
     Route::get('/laporan/{id}/detail', 'LaporanController@show')->name('laporan.show');
 });
 
-Route::group(['middleware' => ['auth','RoleLevel:1,3,4']], function(){
+Route::group(['middleware' => ['auth','RoleLevel:1,4']], function(){
     Route::put('/laporan/{id}/confirm', 'LaporanController@setuju')->name('laporan.agree');
 });
 

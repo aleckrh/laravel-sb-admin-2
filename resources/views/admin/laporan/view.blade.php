@@ -91,17 +91,17 @@
                     <div class="pl-lg-4">
                         <div class="row">
                             <div class="col text-left">
+                           
                                 <a href="{{route('laporan')}}" class="btn btn-light">Kembali</a>
+                        
                             </div>
-                            @if (auth()->user()->level == 1 | 4)
+                            @if (auth()->user()->level==1|4)
         
-                                @if ($dataLaporan->status == 1)
+                                @if ($dataLaporan->status==1)
                                     <div class="col text-right">
                                         <button type="submit" class="btn btn-primary">Setujui Laporan</a>
                                     </div>
-                                @endif
-                                
-                                @if ($dataLaporan->status == 2)
+                                @elseif ($dataLaporan->status==2)
                                     <div class="col text-right">
                                         <button type="submit" class="btn btn-primary" disabled>Sudah Diterima</a>
                                     </div>

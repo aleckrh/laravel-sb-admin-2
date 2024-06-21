@@ -21,7 +21,7 @@ class LaporanController extends Controller
     public function index()
     {
         try {
-            $dataLaporan = Laporan::all();
+            $dataLaporan = Laporan::orderBy('id', 'DESC')->get();
             return view('admin.laporan.index', compact('dataLaporan'));
         } catch (\Throwable $th) {
             Log::error($th);
@@ -33,6 +33,7 @@ class LaporanController extends Controller
 
     public function create()
     {
+        
         try {
             $dataPelabuhan  = Pelabuhan::all();
             $dataDivisi     = Divisi::all();
@@ -170,7 +171,7 @@ class LaporanController extends Controller
                 File::delete('file/' . $dataLaporan->file);
     
                 $fileUpload = $request->file('file');
-                $fileName = time() . '_' . $fileUpload->getClientOriginalName();
+                $fileName = $dataLaporan->id . '_' . $fileUpload->getClientOriginalName();
                 $fileUpload->move(public_path('file'), $fileName);
     
                 $dataLaporan->file          = $fileName;
@@ -190,7 +191,7 @@ class LaporanController extends Controller
             if ($request->hasFile("foto")) {
                 $files = $request->file("foto");
                 foreach ($files as $file) {
-                    $imageName      = time() . '_' . $file->getClientOriginalName();
+                    $imageName      = $dataLaporan->id . '_' . $file->getClientOriginalName();
                     $uploadFoto     = new Foto([
                         'laporan_id'    => $dataLaporan->id,
                         'foto'          => $imageName
@@ -245,15 +246,15 @@ class LaporanController extends Controller
 
     public function show($id)
     {   
-        try {
+        // try {
             $dataLaporan = Laporan::findOrFail($id);
             $fotoLaporan = $dataLaporan->foto;
             return view('admin.laporan.view', compact('dataLaporan','fotoLaporan'));    
-        } catch (\Throwable $th) {
-            Log::error($th);
-            $th->getMessage();
-            return view('admin.error.view');
-        }
+        // } catch (\Throwable $th) {
+        //     Log::error($th);
+        //     $th->getMessage();
+        //     return view('admin.error.view');
+        // }
     }
 
 

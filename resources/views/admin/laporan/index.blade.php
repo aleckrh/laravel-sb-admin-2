@@ -27,7 +27,7 @@
 
     <div class="container-fluid">
 
-        @if ((auth()->user()->level == 1 | 2 | 5))
+        @if (Auth::user()->level == 1 | 5)
             <div class="pl-lg-4 mb-3">
                 <div class="row">
                     <div class="col text-right">
@@ -47,7 +47,7 @@
             </div>
             <div class="card-body">
                 <div class="table-responsive">
-                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                    <table class="table table-bordered dt-responsive" id="dataTable" width="100%" cellspacing="0">
                         <thead>
                             <tr>
                                 <th class="col-sm-1">No</th>
@@ -98,8 +98,10 @@
                                             <a class="btn btn-success btn-sm mr-2" href="{{ route('laporan.group', $row->id) }}"><i class="fas fa-fw fa-people-group"></i></a>
                                             @endif
 
-                                            @if (auth()->user()->level== 1|2|5)
-                                            <a class="btn btn-warning btn-sm mr-2"href="{{ route('laporan.edit', $row->id) }}"><i class="fas fa-fw fa-edit"></i></a>
+                                            @if (auth()->user()->level == 1|2|5)
+                                                @if ($row->status == 1)
+                                                <a class="btn btn-warning btn-sm mr-2"href="{{ route('laporan.edit', $row->id) }}"><i class="fas fa-fw fa-edit"></i></a>
+                                                @endif
                                             @endif
 
                                             @if (auth()->user()->level== 1|2)
