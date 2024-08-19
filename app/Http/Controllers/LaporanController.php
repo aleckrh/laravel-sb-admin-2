@@ -7,6 +7,7 @@ use App\Models\DivisiTerkait;
 use App\Models\Foto;
 use App\Models\Laporan;
 use App\Models\Pelabuhan;
+use Haruncpi\LaravelIdGenerator\IdGenerator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Log;
@@ -69,7 +70,11 @@ class LaporanController extends Controller
                 ]
             );
 
+            $prefix = date('ym');
+            $ticketLaporan = IdGenerator::generate(['table' => 'laporans', 'field' => 'id', 'length' => 8, 'prefix' => $prefix, 'reset_on_prefix_change' => true]);   
+
             $storeLaporan               = new Laporan;
+            $storeLaporan->id           = $ticketLaporan;
             $storeLaporan->user_id      = auth()->user()->id;
             $storeLaporan->judul        = $request->judul;
             $storeLaporan->deskripsi    = $request->deskripsi;

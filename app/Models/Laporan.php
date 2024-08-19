@@ -11,6 +11,7 @@ class Laporan extends Model
     use HasFactory, Notifiable;
 
     protected $fillable = [
+        'id',
         'user_id',
         'judul',
         'deskripsi',

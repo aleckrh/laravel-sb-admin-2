@@ -51,8 +51,8 @@
                         <thead>
                             <tr>
                                 <th class="col-sm-1">No</th>
+                                <th>No Laporan</th>
                                 <th>Judul</th>
-                                <th>Lokasi</th>
                                 <th>Pelapor</th>
                                 <th>Divisi Terkait</th>
                                 <th>Status</th>
@@ -63,8 +63,8 @@
                             @foreach ($dataLaporan as $i => $row)
                                 <tr>
                                     <td class="col-sm-1">{{ ++$i }}</td>
+                                    <td>{{ $row->id }}</td>
                                     <td>{{ $row->judul }}</td>
-                                    <td>{{ $row->lokasi }}</td>
                                     <td>{{ $row->user->name }} {{ $row->user->last_name }}</td>
                                     <td>
                                         @foreach( $row->divisiTerkait as $divisi)
@@ -118,5 +118,9 @@
         </div>
 
     </div>
+
+<script>
+    
+</script>
 
 @endsection

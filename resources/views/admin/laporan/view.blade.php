@@ -29,7 +29,7 @@
         <div class="card shadow mb-4">
 
             <div class="card-header py-3">
-                <h6 class="m-0 font-weight-bold text-primary">Pengajuan Laporan oleh {{$dataLaporan->user->name}} {{$dataLaporan->user->last_name}}</h6>
+                <h6 class="m-0 font-weight-bold text-primary">Laporan No <b>{{$dataLaporan->id}}</b> oleh {{$dataLaporan->user->name}} {{$dataLaporan->user->last_name}}</h6>
             </div>
 
             <div class="card-body">
