@@ -11,3 +11,15 @@ npm-debug.log
 yarn-error.log
 
 /.phpunit.cache
+
+/public/build
+/storage/pail
+.env.backup
+.env.production
+.phpactor.json
+/auth.json
+/.fleet
+/.idea
+/.nova
+/.vscode
+/.zed
