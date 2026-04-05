@@ -4,15 +4,16 @@ SB Admin 2 for Laravel.
 
 | Laravel Version | Branch | Support     |
 |-----------------|--------|-------------|
-| 12.0            | main   |             |
-| 11.0            | v11.0  |             |
+| 13.0            | main   |             |
+| 12.0            | v12.0  |             |
+| 11.0            | v11.0  | End of life |
 | 10.0            | v10.0  | End of life |
 | 9.0             | v9.0   | End of life |
 | 8.0             | v8.0   | End of life |
 
 ## Requirements
 
-- PHP >= 8.2
+- PHP >= 8.3
 - Ctype PHP Extension
 - cURL PHP Extension
 - DOM PHP Extension
